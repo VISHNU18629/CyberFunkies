@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mission Audio Analysis</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet">
+<script>
+tailwind.config = {
+theme: {
+extend: {
+colors: {
+primary: '#4B5320',
+secondary: '#1A1A1A'
+},
+borderRadius: {
+'none': '0px',
+'sm': '4px',
+DEFAULT: '8px',
+'md': '12px',
+'lg': '16px',
+'xl': '20px',
+'2xl': '24px',
+'3xl': '32px',
+'full': '9999px',
+'button': '8px'
+}
+}
+}
+}
+</script>
+<style>
+:where([class^="ri-"])::before { content: "\f3c2"; }
+@font-face {
+font-family: 'Military Stencil';
+src: url('https://fonts.cdnfonts.com/css/military-stencil') format('woff2');
+}
+.military-font {
+font-family: 'Military Stencil', sans-serif;
+}
+@keyframes slideInFromLeft {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+@keyframes slideInFromRight {
+  0% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+@keyframes floatAnimation {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+@keyframes glowingBorder {
+  0%, 100% {
+    border-color: #4B5320;
+  }
+  50% {
+    border-color: #8BA446;
+  }
+}
+.slide-in-left {
+  animation: slideInFromLeft 0.8s ease-out;
+}
+.slide-in-right {
+  animation: slideInFromRight 0.8s ease-out;
+}
+.float-animation {
+  animation: floatAnimation 3s ease-in-out infinite;
+}
+.glow-border {
+  animation: glowingBorder 2s infinite;
+}
+.scale-hover {
+  transition: transform 0.3s ease;
+}
+.scale-hover:hover {
+  transform: scale(1.02);
+}
+.camo-bg {
+background-image: url('https://public.readdy.ai/ai/img_res/01b13df71c2388f358bf4893011e8519.jpg');
+background-repeat: repeat;
+opacity: 0.1;
+}
+input[type="range"] {
+-webkit-appearance: none;
+height: 6px;
+background: #e5e7eb;
+border-radius: 3px;
+}
+input[type="range"]::-webkit-slider-thumb {
+-webkit-appearance: none;
+appearance: none;
+width: 16px;
+height: 16px;
+background: #4B5320;
+border-radius: 50%;
+cursor: pointer;
+transition: transform 0.2s;
+}
+input[type="range"]::-webkit-slider-thumb:hover {
+transform: scale(1.2);
+}
+.upload-zone {
+transition: all 0.3s ease;
+}
+.upload-zone:hover {
+transform: translateY(-4px);
+box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+.keyword-tag {
+transition: all 0.2s ease;
+}
+.keyword-tag:hover {
+transform: scale(1.05);
+}
+.processing-btn {
+position: relative;
+overflow: hidden;
+}
+.processing-btn::after {
+content: '';
+position: absolute;
+top: 0;
+left: -100%;
+width: 100%;
+height: 100%;
+background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+animation: shimmer 2s infinite;
+}
+@keyframes shimmer {
+100% {
+left: 100%;
+}
+}
+.fade-in {
+animation: fadeIn 0.5s ease-in;
+}
+@keyframes fadeIn {
+from {
+opacity: 0;
+transform: translateY(10px);
+}
+to {
+opacity: 1;
+transform: translateY(0);
+}
+}
+.pulse {
+animation: pulse 2s infinite;
+}
+@keyframes pulse {
+0% {
+transform: scale(1);
+}
+50% {
+transform: scale(1.05);
+}
+100% {
+transform: scale(1);
+}
+}
+</style>
+</head>
+<body class="bg-gray-100 min-h-screen relative">
+<div class="camo-bg absolute inset-0 pointer-events-none"></div>
+<header class="bg-primary text-white relative z-10">
+<div class="max-w-7xl mx-auto px-4 py-2 flex items-center justify-between">
+<div class="flex items-center space-x-2">
+<div class="bg-red-600 px-3 py-1 military-font text-sm">TOP SECRET</div>
+<span class="text-sm">Mission ID: OPS-25-0307</span>
+</div>
+<div class="flex items-center space-x-4">
+<span class="text-sm">Security Level: Alpha</span>
+<span class="text-sm">CPT. James Wilson</span>
+</div>
+</div>
+</header>
+<main class="max-w-7xl mx-auto px-4 py-8 relative z-10">
+<div class="bg-white rounded-lg shadow-lg p-6 mb-8 scale-hover">
+<div class="flex items-center mb-6">
+<i class="ri-sound-module-line text-2xl text-primary mr-3"></i>
+<h1 class="text-2xl font-bold military-font">Mission Audio Analysis</h1>
+</div>
+<div class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center mb-8 upload-zone glow-border">
+<div class="w-16 h-16 mx-auto mb-4 flex items-center justify-center float-animation">
+<i class="ri-upload-cloud-line text-4xl text-primary"></i>
+</div>
+<h3 class="mb-2 font-semibold">Secure Audio Upload Point</h3>
+<p class="text-sm text-gray-600 mb-4">Supported formats: MP3, WAV, AAC, FLAC, OGG (Max 500MB)</p>
+<button class="bg-primary text-white px-6 py-2 rounded-button hover:bg-opacity-90 transition-all">
+Upload Audio File
+</button>
+</div>
+<div class="grid grid-cols-2 gap-8">
+<div class="border rounded-lg p-6 bg-gray-50 slide-in-left">
+<h3 class="font-semibold mb-4 flex items-center">
+<i class="ri-equalizer-line mr-2"></i>
+Audio Processing Console
+</h3>
+<div class="space-y-4">
+<div>
+<label class="block text-sm font-medium mb-2">Noise Reduction Level</label>
+<input type="range" min="0" max="100" value="50" class="w-full">
+</div>
+<div>
+<label class="block text-sm font-medium mb-2">Speech Enhancement</label>
+<input type="range" min="0" max="100" value="75" class="w-full">
+</div>
+<button class="bg-primary text-white px-4 py-2 rounded-button hover:bg-opacity-90 transition-all w-full processing-btn">
+Start Processing
+</button>
+</div>
+</div>
+<div class="border rounded-lg p-6 bg-gray-50 slide-in-left">
+<h3 class="font-semibold mb-4 flex items-center">
+<i class="ri-file-text-line mr-2"></i>
+Transcription Settings
+</h3>
+<div class="space-y-4">
+<div>
+<label class="block text-sm font-medium mb-2">Language Detection</label>
+<select class="w-full border rounded-lg p-2">
+<option>Auto Detect</option>
+<option>English</option>
+<option>Russian</option>
+<option>Arabic</option>
+</select>
+</div>
+<div>
+<label class="block text-sm font-medium mb-2">Speaker Identification</label>
+<div class="flex items-center">
+<input type="checkbox" class="mr-2">
+<span class="text-sm">Enable speaker diarization</span>
+</div>
+</div>
+<button class="bg-primary text-white px-4 py-2 rounded-button hover:bg-opacity-90 transition-all w-full">
+Generate Transcript
+</button>
+</div>
+</div>
+</div>
+<div class="mt-8 border rounded-lg p-6 bg-gray-50 scale-hover">
+<h3 class="font-semibold mb-4 flex items-center">
+<i class="ri-search-line mr-2"></i>
+Keyword Analysis
+</h3>
+<div class="flex flex-wrap gap-2 mb-4">
+<span class="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm keyword-tag cursor-pointer">threat (5)</span>
+<span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm keyword-tag cursor-pointer">secure (3)</span>
+<span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm keyword-tag cursor-pointer">mission (8)</span>
+<span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm keyword-tag cursor-pointer">target (4)</span>
+</div>
+<div class="font-mono bg-gray-100 p-4 rounded-lg h-48 overflow-y-auto">
+<p class="text-sm text-gray-700">
+[00:00:15] Speaker 1: Approaching target location from the north.<br>
+[00:00:23] Speaker 2: Copy that. Security perimeter established.<br>
+[00:00:37] Speaker 1: Multiple signals detected in sector bravo.<br>
+[00:00:45] Speaker 2: Confirmed. Initiating scan sequence.
+</p>
+</div>
+</div>
+</div>
+</main>
+<footer class="bg-secondary text-white py-4 relative z-10">
+<div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
+<div class="text-sm">
+System Status: <span class="text-green-400">OPERATIONAL</span>
+</div>
+<div class="text-sm">
+Connection: <span class="text-green-400">SECURE</span> | Encryption: <span class="text-green-400">AES-256</span>
+</div>
+</div>
+</footer>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Animate elements on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, {
+    threshold: 0.1
+  });
+  document.querySelectorAll('.border.rounded-lg').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'all 0.6s ease-out';
+    observer.observe(el);
+  });
+// File upload handling
+const uploadBtn = document.querySelector('button');
+const uploadZone = document.querySelector('.upload-zone');
+uploadZone.addEventListener('dragover', (e) => {
+e.preventDefault();
+uploadZone.classList.add('border-primary');
+});
+uploadZone.addEventListener('dragleave', () => {
+uploadZone.classList.remove('border-primary');
+});
+uploadZone.addEventListener('drop', (e) => {
+e.preventDefault();
+uploadZone.classList.remove('border-primary');
+const file = e.dataTransfer.files[0];
+handleFile(file);
+});
+uploadBtn.addEventListener('click', function() {
+const input = document.createElement('input');
+input.type = 'file';
+input.accept = 'audio/*';
+input.onchange = function(e) {
+const file = e.target.files[0];
+handleFile(file);
+};
+input.click();
+});
+function handleFile(file) {
+if (!file) return;
+if (file.size > 500 * 1024 * 1024) {
+showNotification('File size exceeds 500MB limit', 'error');
+return;
+}
+showNotification('File uploaded successfully!', 'success');
+// Add your file processing logic here
+}
+// Range input animations
+const ranges = document.querySelectorAll('input[type="range"]');
+ranges.forEach(range => {
+range.addEventListener('input', function() {
+const value = this.value;
+const percent = (value - this.min) / (this.max - this.min) * 100;
+this.style.background = `linear-gradient(to right, #4B5320 ${percent}%, #e5e7eb ${percent}%)`;
+});
+});
+// Keyword tags interaction
+const keywordTags = document.querySelectorAll('.keyword-tag');
+keywordTags.forEach(tag => {
+tag.addEventListener('click', function() {
+this.classList.add('pulse');
+setTimeout(() => this.classList.remove('pulse'), 2000);
+});
+});
+// Processing button animation
+const processBtn = document.querySelector('.processing-btn');
+processBtn.addEventListener('click', function() {
+this.textContent = 'Processing...';
+this.disabled = true;
+setTimeout(() => {
+this.textContent = 'Start Processing';
+this.disabled = false;
+showNotification('Processing completed!', 'success');
+}, 3000);
+});
+// Custom notification system
+function showNotification(message, type = 'info') {
+const notification = document.createElement('div');
+notification.className = `fixed top-4 right-4 p-4 rounded-lg shadow-lg fade-in z-50 ${
+type === 'error' ? 'bg-red-500' : 'bg-green-500'
+} text-white`;
+notification.textContent = message;
+document.body.appendChild(notification);
+setTimeout(() => {
+notification.style.opacity = '0';
+setTimeout(() => notification.remove(), 500);
+}, 3000);
+}
+});
+</script>
+</body>
+</html>

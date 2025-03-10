@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Disaster & Military News</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#1A3B1F",
+              secondary: "#C4B6A6",
+            },
+            borderRadius: {
+              none: "0px",
+              sm: "4px",
+              DEFAULT: "8px",
+              md: "12px",
+              lg: "16px",
+              xl: "20px",
+              "2xl": "24px",
+              "3xl": "32px",
+              full: "9999px",
+              button: "8px",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      :where([class^="ri-"])::before { content: "\f3c2"; }
+      .news-ticker {
+      animation: ticker 30s linear infinite;
+      }
+      @keyframes ticker {
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
+      }
+      .map-container {
+      background-image: url('https://public.readdy.ai/gen_page/map_placeholder_1280x720.png');
+      background-position: center;
+      background-size: cover;
+      }
+      .card-hover {
+      transition: all 0.3s ease;
+      }
+      .card-hover:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+      }
+      .button-hover {
+      transition: all 0.2s ease;
+      }
+      .button-hover:hover {
+      transform: scale(1.05);
+      }
+      .button-hover:active {
+      transform: scale(0.95);
+      }
+      .fade-in {
+      animation: fadeIn 0.5s ease-in;
+      }
+      @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+      }
+      .pulse {
+      animation: pulse 2s infinite;
+      }
+      @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+      }
+      .shimmer {
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+      }
+      @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+      }
+    </style>
+  </head>
+  <body class="bg-gray-50 min-h-screen">
+    <header class="bg-primary text-white">
+      <div class="container mx-auto px-4">
+        <div class="flex items-center justify-between h-16">
+          <div class="flex items-center space-x-4">
+            <div class="w-8 h-8 flex items-center justify-center">
+              <i class="ri-shield-star-line text-2xl"></i>
+            </div>
+            <h1 class="text-xl font-bold">Disaster & Military News</h1>
+          </div>
+          <div class="flex items-center space-x-6">
+            <button
+              class="cursor-pointer !rounded-button flex items-center space-x-2 bg-white/10 px-4 py-2 button-hover"
+            >
+              <i class="ri-notification-3-line"></i>
+              <span>Notifications</span>
+            </button>
+            <div
+              class="w-8 h-8 flex items-center justify-center cursor-pointer"
+            >
+              <i class="ri-user-line text-xl"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+    <div
+      class="bg-red-600 text-white py-2 overflow-hidden whitespace-nowrap shimmer"
+    >
+      <div class="news-ticker inline-block">
+        BREAKING: Major earthquake strikes Pacific region | Military exercise
+        commenced in Eastern Europe | Hurricane warning issued for coastal areas
+      </div>
+    </div>
+    <nav class="bg-white shadow-sm">
+      <div class="container mx-auto px-4">
+        <div class="flex space-x-1 py-2 fade-in">
+          <button
+            class="active-tab flex-1 py-2 px-4 !rounded-button bg-primary text-white"
+          >
+            Military Operations
+          </button>
+          <button class="flex-1 py-2 px-4 !rounded-button hover:bg-gray-100">
+            Disaster Management
+          </button>
+          <button class="flex-1 py-2 px-4 !rounded-button hover:bg-gray-100">
+            Defense Technology
+          </button>
+          <button class="flex-1 py-2 px-4 !rounded-button hover:bg-gray-100">
+            Security Alerts
+          </button>
+        </div>
+      </div>
+    </nav>
+    <main class="container mx-auto px-4 py-8">
+      <div class="flex items-center space-x-4 mb-8">
+        <div class="flex-1 relative">
+          <input
+            type="text"
+            placeholder="Search news..."
+            class="w-full pl-10 pr-4 py-2 border rounded-button"
+          />
+          <i
+            class="ri-search-line absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+          ></i>
+        </div>
+        <button
+          class="!rounded-button px-4 py-2 bg-secondary text-primary flex items-center space-x-2 button-hover"
+        >
+          <i class="ri-filter-3-line"></i>
+          <span>Filters</span>
+        </button>
+      </div>
+      <div class="grid grid-cols-3 gap-6 mb-8 fade-in">
+        <div class="bg-white rounded shadow-sm overflow-hidden card-hover">
+          <img
+            src="https://public.readdy.ai/ai/img_res/3b14e89c57c4f295174e6f8be2ddf73c.jpg"
+            class="w-full h-48 object-cover"
+            alt="Military News"
+          />
+          <div class="p-4">
+            <div class="flex items-center space-x-2 text-sm text-gray-500 mb-2">
+              <span>Military Operations</span>
+              <span>•</span>
+              <span>2 hours ago</span>
+            </div>
+            <h3 class="font-bold mb-2">
+              Joint Military Exercise Strengthens International Defense
+              Cooperation
+            </h3>
+            <p class="text-gray-600 text-sm">
+              Multi-national forces participate in strategic defense drills
+              focusing on modern warfare tactics...
+            </p>
+          </div>
+        </div>
+        <div class="bg-white rounded shadow-sm overflow-hidden card-hover">
+          <img
+            src="https://public.readdy.ai/ai/img_res/47a3dec4e093979dce53a10bf323939e.jpg"
+            class="w-full h-48 object-cover transition-transform duration-300 hover:scale-105"
+            alt="Disaster News"
+          />
+          <div class="p-4">
+            <div class="flex items-center space-x-2 text-sm text-gray-500 mb-2">
+              <span>Disaster Management</span>
+              <span>•</span>
+              <span>5 hours ago</span>
+            </div>
+            <h3 class="font-bold mb-2">
+              Emergency Response Teams Deploy to Earthquake-Hit Region
+            </h3>
+            <p class="text-gray-600 text-sm">
+              Rapid response units mobilize to provide immediate assistance and
+              conduct search operations...
+            </p>
+          </div>
+        </div>
+        <div class="bg-white rounded shadow-sm overflow-hidden card-hover">
+          <img
+            src="https://public.readdy.ai/ai/img_res/bc7043d135637f7c2f4a3d662dd7f3fd.jpg"
+            class="w-full h-48 object-cover transition-transform duration-300 hover:scale-105"
+            alt="Technology News"
+          />
+          <div class="p-4">
+            <div class="flex items-center space-x-2 text-sm text-gray-500 mb-2">
+              <span>Defense Technology</span>
+              <span>•</span>
+              <span>1 day ago</span>
+            </div>
+            <h3 class="font-bold mb-2">
+              New Defense System Successfully Tested in Field Operations
+            </h3>
+            <p class="text-gray-600 text-sm">
+              Latest military technology demonstrates enhanced capabilities in
+              real-world scenarios...
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="bg-white rounded shadow-sm p-6 mb-8 fade-in">
+        <h2 class="text-xl font-bold mb-4 pulse">Global Incident Map</h2>
+        <div class="map-container h-96 rounded"></div>
+      </div>
+      <div class="bg-white rounded shadow-sm p-6">
+        <h2 class="text-xl font-bold mb-4">Recent Activities</h2>
+        <div id="activityChart" class="h-80"></div>
+      </div>
+    </main>
+    <script>
+      const chart = echarts.init(document.getElementById("activityChart"));
+      const option = {
+        animation: false,
+        tooltip: {
+          trigger: "axis",
+          backgroundColor: "rgba(255, 255, 255, 0.9)",
+        },
+        legend: {
+          data: ["Military Operations", "Disaster Events", "Security Alerts"],
+          textStyle: { color: "#1f2937" },
+        },
+        grid: { top: 10, right: 0, bottom: 0, left: 0 },
+        xAxis: {
+          type: "category",
+          data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+        },
+        yAxis: { type: "value" },
+        series: [
+          {
+            name: "Military Operations",
+            type: "line",
+            smooth: true,
+            data: [120, 132, 101, 134, 90, 230, 210],
+            itemStyle: { color: "rgba(87, 181, 231, 1)" },
+            areaStyle: {
+              color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                { offset: 0, color: "rgba(87, 181, 231, 0.3)" },
+                { offset: 1, color: "rgba(87, 181, 231, 0)" },
+              ]),
+            },
+          },
+          {
+            name: "Disaster Events",
+            type: "line",
+            smooth: true,
+            data: [220, 182, 191, 234, 290, 330, 310],
+            itemStyle: { color: "rgba(141, 211, 199, 1)" },
+            areaStyle: {
+              color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                { offset: 0, color: "rgba(141, 211, 199, 0.3)" },
+                { offset: 1, color: "rgba(141, 211, 199, 0)" },
+              ]),
+            },
+          },
+          {
+            name: "Security Alerts",
+            type: "line",
+            smooth: true,
+            data: [150, 232, 201, 154, 190, 330, 410],
+            itemStyle: { color: "rgba(251, 191, 114, 1)" },
+            areaStyle: {
+              color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                { offset: 0, color: "rgba(251, 191, 114, 0.3)" },
+                { offset: 1, color: "rgba(251, 191, 114, 0)" },
+              ]),
+            },
+          },
+        ],
+      };
+      chart.setOption(option);
+      window.addEventListener("resize", () => chart.resize());
+    </script>
+  </body>
+</html>

@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Soldier Unit Monitoring Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#1A2C1A",
+              secondary: "#0A1F0A",
+            },
+            borderRadius: {
+              none: "0px",
+              sm: "4px",
+              DEFAULT: "8px",
+              md: "12px",
+              lg: "16px",
+              xl: "20px",
+              "2xl": "24px",
+              "3xl": "32px",
+              full: "9999px",
+              button: "8px",
+            },
+          },
+        },
+      };
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
+    <style>
+      :where([class^="ri-"])::before { content: "\f3c2"; }
+      .vital-card {
+      transition: all 0.3s ease;
+      }
+      .vital-card.alert {
+      animation: pulse 2s infinite;
+      }
+      @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.4); }
+      70% { box-shadow: 0 0 0 10px rgba(255, 0, 0, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0); }
+      }
+    </style>
+  </head>
+  <body class="bg-primary min-h-screen">
+    <header class="bg-secondary fixed w-full top-0 z-50">
+      <div
+        class="container mx-auto px-4 py-4 flex items-center justify-between"
+      >
+        <div class="flex items-center space-x-4">
+          <div class="w-10 h-10 flex items-center justify-center">
+            <i class="ri-shield-star-line text-green-400 text-2xl"></i>
+          </div>
+          <h1 class="text-white text-2xl font-bold">
+            Soldier Unit Monitoring Dashboard
+          </h1>
+        </div>
+        <div class="flex items-center space-x-6">
+          <div class="relative">
+            <button
+              id="settingsBtn"
+              class="w-10 h-10 flex items-center justify-center text-white hover:bg-green-800 rounded-full"
+            >
+              <i class="ri-settings-3-line text-xl"></i>
+            </button>
+          </div>
+          <div class="flex items-center space-x-2">
+            <div
+              class="w-10 h-10 rounded-full bg-green-700 flex items-center justify-center"
+            >
+              <i class="ri-user-3-line text-white"></i>
+            </div>
+            <span class="text-white">Commander John Smith</span>
+          </div>
+        </div>
+      </div>
+    </header>
+    <main class="container mx-auto px-4 pt-24 pb-8">
+      <div class="flex items-center justify-between mb-8">
+        <div class="relative flex-1 max-w-md">
+          <input
+            type="text"
+            placeholder="Search soldier or unit..."
+            class="w-full bg-secondary text-white pl-10 pr-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+          />
+          <i
+            class="ri-search-line absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+          ></i>
+        </div>
+        <div class="flex space-x-4">
+          <button
+            class="bg-green-700 text-white px-4 py-2 rounded-button flex items-center space-x-2"
+          >
+            <i class="ri-filter-3-line"></i>
+            <span>Filter</span>
+          </button>
+          <button
+            class="bg-green-700 text-white px-4 py-2 rounded-button flex items-center space-x-2"
+          >
+            <i class="ri-download-line"></i>
+            <span>Export Report</span>
+          </button>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8" id="unitGrid"></div>
+    </main>
+    <script>
+      const mockData = {
+        units: [
+          {
+            id: 1,
+            name: "Alpha Unit",
+            soldiers: [
+              {
+                id: 1,
+                name: "James Wilson",
+                age: 28,
+                photo:
+                  "https://public.readdy.ai/ai/img_res/82ae3b178b14ca7b8cd66dd1998dee53.jpg",
+                vitals: { heartRate: 75, spO2: 98, co2: 35, temp: 37.2 },
+              },
+              {
+                id: 2,
+                name: "Robert Miller",
+                age: 31,
+                photo:
+                  "https://public.readdy.ai/ai/img_res/7ede020f6ae9ad7e575455e03d78a6bd.jpg",
+                vitals: { heartRate: 82, spO2: 97, co2: 38, temp: 37.5 },
+              },
+              {
+                id: 3,
+                name: "Michael Davis",
+                age: 26,
+                photo:
+                  "https://public.readdy.ai/ai/img_res/0593744023112eea4f6a9be6c0eba4fb.jpg",
+                vitals: { heartRate: 68, spO2: 99, co2: 36, temp: 36.9 },
+              },
+              {
+                id: 4,
+                name: "William Taylor",
+                age: 29,
+                photo:
+                  "https://public.readdy.ai/ai/img_res/3d400cbf9d7448eb78f0b85c7f709398.jpg",
+                vitals: { heartRate: 90, spO2: 95, co2: 40, temp: 38.1 },
+              },
+              {
+                id: 5,
+                name: "David Anderson",
+                age: 33,
+                photo:
+                  "https://public.readdy.ai/ai/img_res/c1be50c571915d74adb204b0fba0d55b.jpg",
+                vitals: { heartRate: 72, spO2: 98, co2: 37, temp: 37.0 },
+              },
+              {
+                id: 6,
+                name: "Christopher Brown",
+                age: 30,
+                photo:
+                  "https://public.readdy.ai/ai/img_res/bd34f0e64e892e73de03785b5423b7a8.jpg",
+                vitals: { heartRate: 78, spO2: 97, co2: 36, temp: 37.3 },
+              },
+            ],
+          },
+          {
+            id: 2,
+            name: "Bravo Unit",
+            soldiers: [
+              {
+                id: 7,
+                name: "Thomas Martinez",
+                age: 27,
+                photo:
+                  "https://public.readdy.ai/ai/img_res/0aaf9f9f7da5381416b958dcf6e7d967.jpg",
+                vitals: { heartRate: 76, spO2: 98, co2: 35, temp: 37.1 },
+              },
+              {
+                id: 8,
+                name: "Daniel Johnson",
+                age: 32,
+                photo:
+                  "https://public.readdy.ai/ai/img_res/45cafec72d69024ca2a6e3dbcdde8234.jpg",
+                vitals: { heartRate: 85, spO2: 96, co2: 39, temp: 37.8 },
+              },
+              {
+                id: 9,
+                name: "Joseph White",
+                age: 29,
+                photo:
+                  "https://public.readdy.ai/ai/img_res/0a89e0bbbc3b825a155280a00daf9947.jpg",
+                vitals: { heartRate: 70, spO2: 99, co2: 36, temp: 37.0 },
+              },
+              {
+                id: 10,
+                name: "Richard Thompson",
+                age: 31,
+                photo:
+                  "https://public.readdy.ai/ai/img_res/e0d88c025a54806eb3511e21bcae7578.jpg",
+                vitals: { heartRate: 88, spO2: 97, co2: 37, temp: 37.4 },
+              },
+              {
+                id: 11,
+                name: "Charles Garcia",
+                age: 28,
+                photo:
+                  "https://public.readdy.ai/ai/img_res/c9833dd2cc55276114b8258fbdf7e497.jpg",
+                vitals: { heartRate: 73, spO2: 98, co2: 35, temp: 37.2 },
+              },
+              {
+                id: 12,
+                name: "Steven Rodriguez",
+                age: 30,
+                photo:
+                  "https://public.readdy.ai/ai/img_res/b434ef5a4b3fb56c1a64f25f8a1dac76.jpg",
+                vitals: { heartRate: 79, spO2: 97, co2: 38, temp: 37.3 },
+              },
+            ],
+          },
+          {
+            id: 3,
+            name: "Charlie Unit",
+            soldiers: [
+              {
+                id: 13,
+                name: "Paul Wilson",
+                age: 29,
+                photo:
+                  "https://public.readdy.ai/ai/img_res/c4a33857b703cdc16d06509813d4b006.jpg",
+                vitals: { heartRate: 77, spO2: 98, co2: 36, temp: 37.2 },
+              },
+              {
+                id: 14,
+                name: "Mark Davis",
+                age: 31,
+                photo:
+                  "https://public.readdy.ai/ai/img_res/f8022811e2f87bfc4b4a8b559bd7478d.jpg",
+                vitals: { heartRate: 83, spO2: 97, co2: 37, temp: 37.5 },
+              },
+              {
+                id: 15,
+                name: "Donald Taylor",
+                age: 28,
+                photo:
+                  "https://public.readdy.ai/ai/img_res/34fff108db412b049e79aab7ef45689d.jpg",
+                vitals: { heartRate: 71, spO2: 99, co2: 35, temp: 37.0 },
+              },
+              {
+                id: 16,
+                name: "George Anderson",
+                age: 32,
+                photo:
+                  "https://public.readdy.ai/ai/img_res/a499b574e87ae6fd8f6b7685eab413fb.jpg",
+                vitals: { heartRate: 86, spO2: 96, co2: 38, temp: 37.6 },
+              },
+              {
+                id: 17,
+                name: "Kenneth Brown",
+                age: 30,
+                photo:
+                  "https://public.readdy.ai/ai/img_res/6547cf0ff01bddaf8aac829db949e1a0.jpg",
+                vitals: { heartRate: 74, spO2: 98, co2: 36, temp: 37.1 },
+              },
+              {
+                id: 18,
+                name: "Edward Martinez",
+                age: 27,
+                photo:
+                  "https://public.readdy.ai/ai/img_res/30792ee6141dfa43d821fdbe85948600.jpg",
+                vitals: { heartRate: 80, spO2: 97, co2: 37, temp: 37.4 },
+              },
+            ],
+          },
+        ],
+      };
+      function createVitalChart(containerId, data) {
+        const chart = echarts.init(document.getElementById(containerId));
+        const option = {
+          animation: false,
+          grid: { top: 0, right: 0, bottom: 0, left: 0 },
+          xAxis: {
+            type: "category",
+            data: ["", "", "", "", ""],
+            show: false,
+          },
+          yAxis: {
+            type: "value",
+            show: false,
+          },
+          series: [
+            {
+              data: data,
+              type: "line",
+              smooth: true,
+              symbol: "none",
+              areaStyle: {
+                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                  {
+                    offset: 0,
+                    color: "rgba(87, 181, 231, 0.2)",
+                  },
+                  {
+                    offset: 1,
+                    color: "rgba(87, 181, 231, 0)",
+                  },
+                ]),
+              },
+              lineStyle: {
+                color: "rgba(87, 181, 231, 1)",
+              },
+            },
+          ],
+        };
+        chart.setOption(option);
+      }
+      function checkVitals(vitals) {
+        if (
+          vitals.heartRate > 100 ||
+          vitals.heartRate < 60 ||
+          vitals.spO2 < 95 ||
+          vitals.temp > 38.0 ||
+          vitals.co2 > 45 ||
+          vitals.co2 < 35
+        ) {
+          return true;
+        }
+        return false;
+      }
+      function showAlertModal(soldier) {
+        const modal = document.getElementById("alertModal");
+        const message = document.getElementById("alertMessage");
+        message.textContent = `Critical vitals detected for ${soldier.name}. Immediate attention required.`;
+        modal.classList.remove("hidden");
+        modal.classList.add("flex");
+      }
+      function closeAlertModal() {
+        const modal = document.getElementById("alertModal");
+        modal.classList.add("hidden");
+        modal.classList.remove("flex");
+      }
+      function handleEmergency() {
+        closeAlertModal();
+      }
+      function createSoldierCard(soldier) {
+        const isAlert = checkVitals(soldier.vitals);
+        const cardDiv = document.createElement("div");
+        cardDiv.className = `vital-card bg-secondary p-6 rounded-lg w-full ${isAlert ? "alert" : ""}`;
+        cardDiv.innerHTML = `
+      <div class="flex flex-col items-center mb-6">
+      <img src="${soldier.photo}" alt="${soldier.name}" class="w-32 h-32 rounded-full object-cover border-4 border-gray-700 mb-4">
+      <div class="text-center">
+      <h3 class="text-white text-xl font-bold mb-1">${soldier.name}</h3>
+      <p class="text-gray-300">Age: ${soldier.age}</p>
+      </div>
+      ${isAlert ? '<i class="ri-alarm-warning-line text-red-500 text-2xl mt-2"></i>' : ""}
+      </div>
+      <div class="grid grid-cols-1 gap-4">
+      <div class="bg-gray-800 p-4 rounded-lg overflow-hidden">
+      <div class="flex justify-between items-center mb-3">
+      <span class="text-gray-300 text-lg">Heart Rate:</span>
+      <span class="text-white text-xl font-semibold">${soldier.vitals.heartRate.toFixed(3)} bpm</span>
+      </div>
+      <div id="chart-hr-${soldier.id}" class="h-16"></div>
+      </div>
+      <div class="bg-gray-800 p-4 rounded-lg overflow-hidden">
+      <div class="flex justify-between items-center mb-3">
+      <span class="text-gray-300 text-lg">SpO2:</span>
+      <span class="text-white text-xl font-semibold">${soldier.vitals.spO2.toFixed(3)}%</span>
+      </div>
+      <div class="mt-2 h-3 bg-gray-700 rounded-full overflow-hidden">
+      <div class="h-full bg-blue-500 rounded-full transition-all duration-300" style="width: ${soldier.vitals.spO2}%"></div>
+      </div>
+      </div>
+      <div class="bg-gray-800 p-4 rounded-lg overflow-hidden">
+      <div class="flex justify-between items-center mb-3">
+      <span class="text-gray-300 text-lg">CO2:</span>
+      <span class="text-white text-xl font-semibold">${soldier.vitals.co2.toFixed(3)} mmHg</span>
+      </div>
+      <div class="mt-2 h-3 bg-gray-700 rounded-full overflow-hidden">
+      <div class="h-full bg-green-500 rounded-full transition-all duration-300" style="width: ${(soldier.vitals.co2 / 50) * 100}%"></div>
+      </div>
+      </div>
+      <div class="bg-gray-800 p-4 rounded-lg overflow-hidden">
+      <div class="flex justify-between items-center mb-3">
+      <span class="text-gray-300 text-lg">Temperature:</span>
+      <span class="text-white text-xl font-semibold">${soldier.vitals.temp.toFixed(3)}°C</span>
+      </div>
+      <div class="mt-2 flex items-center gap-3">
+      <i class="ri-temp-hot-line text-yellow-500 text-xl"></i>
+      <div class="flex-1 h-3 bg-gray-700 rounded-full overflow-hidden">
+      <div class="h-full bg-yellow-500 rounded-full transition-all duration-300" style="width: ${((soldier.vitals.temp - 36) / 2) * 100}%"></div>
+      </div>
+      </div>
+      </div>
+      </div>
+      `;
+        if (isAlert) {
+          cardDiv.addEventListener("click", () => showAlertModal(soldier));
+        }
+        return cardDiv;
+      }
+      function createUnitCard(unit) {
+        const unitDiv = document.createElement("div");
+        unitDiv.className = "bg-gray-800 p-6 rounded-xl";
+        const header = document.createElement("div");
+        header.className = "flex items-center justify-between mb-6";
+        header.innerHTML = `
+      <h2 class="text-xl text-white font-bold">${unit.name}</h2>
+      <span class="px-3 py-1 bg-green-800 text-green-200 rounded-full text-sm">
+      ${unit.soldiers.length} Members
+      </span>
+      `;
+        const grid = document.createElement("div");
+        grid.className = "grid grid-cols-2 gap-4";
+        unit.soldiers.forEach((soldier) => {
+          grid.appendChild(createSoldierCard(soldier));
+        });
+        unitDiv.appendChild(header);
+        unitDiv.appendChild(grid);
+        return unitDiv;
+      }
+      function initializeDashboard() {
+        const unitGrid = document.getElementById("unitGrid");
+        mockData.units.forEach((unit) => {
+          unitGrid.appendChild(createUnitCard(unit));
+        });
+        mockData.units.forEach((unit) => {
+          unit.soldiers.forEach((soldier) => {
+            setTimeout(() => {
+              createVitalChart(
+                `chart-hr-${soldier.id}`,
+                [70, 75, 72, 78, 75].map((v) => v + Math.random() * 10 - 5),
+              );
+            }, 100);
+          });
+        });
+      }
+      window.addEventListener("load", initializeDashboard);
+      function updateVitals() {
+        mockData.units.forEach((unit) => {
+          unit.soldiers.forEach((soldier) => {
+            soldier.vitals.heartRate += Math.random() * 4 - 2;
+            soldier.vitals.spO2 += Math.random() * 2 - 1;
+            soldier.vitals.co2 += Math.random() * 2 - 1;
+            soldier.vitals.temp += Math.random() * 0.2 - 0.1;
+            if (checkVitals(soldier.vitals)) {
+              const card = document
+                .querySelector(`#chart-hr-${soldier.id}`)
+                .closest(".vital-card");
+              if (!card.classList.contains("alert")) {
+                card.classList.add("alert");
+                showAlertModal(soldier);
+              }
+            }
+          });
+        });
+        const unitGrid = document.getElementById("unitGrid");
+        unitGrid.innerHTML = "";
+        mockData.units.forEach((unit) => {
+          unitGrid.appendChild(createUnitCard(unit));
+        });
+        mockData.units.forEach((unit) => {
+          unit.soldiers.forEach((soldier) => {
+            setTimeout(() => {
+              createVitalChart(
+                `chart-hr-${soldier.id}`,
+                [70, 75, 72, 78, 75].map((v) => v + Math.random() * 10 - 5),
+              );
+            }, 100);
+          });
+        });
+      }
+      setInterval(updateVitals, 5000);
+    </script>
+  </body>
+</html>

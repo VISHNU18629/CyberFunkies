@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Military Health Monitoring System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#00F2EA",
+              secondary: "#1C1C1C",
+            },
+            borderRadius: {
+              none: "0px",
+              sm: "4px",
+              DEFAULT: "8px",
+              md: "12px",
+              lg: "16px",
+              xl: "20px",
+              "2xl": "24px",
+              "3xl": "32px",
+              full: "9999px",
+              button: "8px",
+            },
+          },
+        },
+      };
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
+    <style>
+      :where([class^="ri-"])::before { content: "\f3c2"; }
+      .vital-chart { height: 120px; }
+      .map-container { background-image: url('https://public.readdy.ai/gen_page/map_placeholder_1280x720.png'); }
+      body { padding-top: 64px; }
+      @keyframes slideInFromLeft {
+      0% {
+      transform: translateX(-100%);
+      opacity: 0;
+      }
+      100% {
+      transform: translateX(0);
+      opacity: 1;
+      }
+      }
+      @keyframes slideInFromRight {
+      0% {
+      transform: translateX(100%);
+      opacity: 0;
+      }
+      100% {
+      transform: translateX(0);
+      opacity: 1;
+      }
+      }
+      @keyframes fadeInUp {
+      0% {
+      transform: translateY(20px);
+      opacity: 0;
+      }
+      100% {
+      transform: translateY(0);
+      opacity: 1;
+      }
+      }
+      .animate-slide-left {
+      animation: slideInFromLeft 0.8s ease-out forwards;
+      }
+      .animate-slide-right {
+      animation: slideInFromRight 0.8s ease-out forwards;
+      }
+      .animate-fade-up {
+      animation: fadeInUp 0.8s ease-out forwards;
+      }
+      html {
+      scroll-behavior: smooth;
+      }
+      body {
+      padding-top: 64px;
+      }
+      @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+      }
+      .animate-fadeIn {
+      animation: fadeIn 0.5s ease-out forwards;
+      }
+      .card-hover {
+      transition: all 0.3s ease;
+      }
+      .card-hover:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 242, 234, 0.1);
+      }
+      .text-gradient {
+      background: linear-gradient(45deg, #00F2EA, #4CAF50);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      }
+      .glow {
+      box-shadow: 0 0 15px rgba(0, 242, 234, 0.3);
+      }
+      .nav-link {
+      position: relative;
+      color: #fff;
+      text-decoration: none;
+      }
+      .nav-link::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: -4px;
+      left: 0;
+      background-color: #00F2EA;
+      transition: width 0.3s ease;
+      }
+      .nav-link:hover::after {
+      width: 100%;
+      }
+    </style>
+  </head>
+  <body class="bg-[#121212] min-h-screen">
+    <nav class="bg-[#1C1C1C] shadow-lg fixed w-full z-50 top-0">
+      <div class="max-w-7xl mx-auto px-4">
+        <div class="flex justify-between h-16">
+          <div class="flex items-center">
+            <span class="text-2xl font-['Pacifico'] text-primary animate-pulse"
+              >logo</span
+            >
+            <div class="ml-10 flex space-x-8">
+              <a
+                href="dashboard.html"
+                class="nav-link text-white font-medium hover:text-primary transition-colors duration-300"
+                >Dashboard</a
+              >
+              <a
+                href="disaster_news.html"
+                class="nav-link text-gray-400 hover:text-primary transition-colors duration-300"
+                >Disaster & Military News</a
+              >
+              <a
+                href="audio.html"
+                class="nav-link text-gray-400 hover:text-primary transition-colors duration-300"
+                >Audio Analysis</a
+              >
+              <a
+                href="video_analysis.html"
+                class="nav-link text-gray-400 hover:text-primary transition-colors duration-300"
+                >Video Analysis</a
+              >
+              <a
+                href="geographical.html"
+                class="nav-link text-gray-400 hover:text-primary transition-colors duration-300"
+                >Geographical Information</a
+              >
+            </div>
+          </div>
+          <div class="flex items-center space-x-4">
+            <button
+              class="bg-red-600 text-white px-4 py-2 rounded-button flex items-center hover:bg-red-700 transition-colors duration-300 glow"
+            >
+              <i class="ri-alarm-warning-line mr-2"></i>
+              SOS Alert
+            </button>
+            <div class="relative">
+              <button class="flex items-center space-x-2 text-gray-700">
+                <img
+                  src="https://public.readdy.ai/ai/img_res/33f43283e7ab95712357c66a1a66d3fc.jpg"
+                  class="w-8 h-8 rounded-full object-cover"
+                />
+                <span>Cmdr. James Wilson</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <div class="relative bg-[#1C1C1C] overflow-hidden">
+      <div class="max-w-7xl mx-auto">
+        <div
+          class="relative z-10 pb-8 bg-gradient-to-r from-[#1C1C1C] to-transparent sm:pb-16 md:pb-20 lg:max-w-2xl lg:w-1/2 lg:pb-28 xl:pb-32"
+        >
+          <main
+            class="mt-10 mx-auto max-w-7xl px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-20 lg:px-8 xl:mt-28"
+          >
+            <div class="sm:text-center lg:text-left animate-fadeIn">
+              <div class="inline-block">
+                <span
+                  class="bg-red-600 text-white text-sm font-semibold px-4 py-1 rounded-full mb-4 inline-flex items-center"
+                >
+                  <i class="ri-shield-star-line mr-1"></i>PRATAP MILITARY
+                  DIVISION
+                </span>
+              </div>
+              <div class="flex items-center gap-4 mb-6">
+                <i
+                  class="ri-flight-takeoff-line text-6xl text-primary animate-bounce"
+                ></i>
+                <h1
+                  class="text-5xl tracking-tight font-black text-white sm:text-6xl md:text-7xl"
+                  style="text-shadow: 0 0 20px rgba(0,242,234,0.5)"
+                >
+                  <span
+                    class="block bg-clip-text text-transparent bg-gradient-to-r from-primary to-blue-500 animate__animated animate__fadeInUp"
+                    >EAGLE FORCE</span
+                  >
+                  <span
+                    class="block text-white animate__animated animate__fadeInUp animate__delay-1s"
+                    >TACTICAL OPS</span
+                  >
+                </h1>
+              </div>
+              <p
+                class="mt-6 text-lg text-gray-300 sm:mt-8 sm:text-xl sm:max-w-xl sm:mx-auto md:mt-8 md:text-2xl lg:mx-0 animate__animated animate__fadeInUp animate__delay-2s font-medium"
+                style="text-shadow: 0 0 10px rgba(255,255,255,0.3)"
+              >
+                Empowering elite forces with next-gen combat health monitoring.
+                Real-time battlefield intelligence for superior tactical
+                advantage and mission success.
+              </p>
+              <div
+                class="mt-12 sm:mt-14 flex flex-col sm:flex-row gap-4 sm:gap-6 lg:justify-start animate__animated animate__fadeInUp animate__delay-3s"
+              >
+                <a
+                  href="#units"
+                  data-readdy="true"
+                  class="inline-flex items-center justify-center px-10 py-5 text-lg font-bold rounded-button text-white bg-gradient-to-r from-red-600 via-red-500 to-red-700 hover:from-red-700 hover:to-red-800 transform hover:scale-105 transition-all duration-300 shadow-[0_0_20px_rgba(239,68,68,0.5)]"
+                >
+                  <i class="ri-shield-flash-line mr-2 text-xl"></i>
+                  INITIATE MISSION
+                </a>
+                <button
+                  class="inline-flex items-center justify-center px-10 py-5 text-lg font-bold rounded-button text-primary border-2 border-primary hover:bg-primary hover:bg-opacity-10 transform hover:scale-105 transition-all duration-300 shadow-[0_0_20px_rgba(0,242,234,0.3)]"
+                >
+                  <i class="ri-file-shield-2-line mr-2 text-xl"></i>
+                  CLASSIFIED DOCS
+                </button>
+              </div>
+              <div
+                class="mt-8 flex items-center gap-8 text-sm text-gray-400 animate__animated animate__fadeInUp animate__delay-4s"
+              >
+                <div class="flex items-center">
+                  <i class="ri-shield-check-line text-green-500 mr-2"></i>
+                  Military Grade Security
+                </div>
+                <div class="flex items-center">
+                  <i class="ri-timer-line text-green-500 mr-2"></i>
+                  Real-time Updates
+                </div>
+                <div class="flex items-center">
+                  <i class="ri-global-line text-green-500 mr-2"></i>
+                  Global Coverage
+                </div>
+              </div>
+            </div>
+          </main>
+        </div>
+      </div>
+
+      
+      
+      <div class="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
+        <img
+          class="h-56 w-full object-cover sm:h-72 md:h-96 lg:w-full lg:h-full"
+          src="https://public.readdy.ai/ai/img_res/f9b6541d5d4d3b5afe18a411fc6d97cc.jpg"
+          alt="Hero Image"
+        />
+      </div>
+    </div>
+    <div
+      class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 pt-24"
+      id="dashboard"
+    >
+      <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div
+          class="bg-[#1C1C1C] overflow-hidden shadow-lg rounded-lg border border-gray-800 hover:border-primary transition-all duration-300 transform hover:-translate-y-1"
+        >
+        
+
+        
+          <div class="p-5">
+            <div class="flex items-center">
+              <div class="w-0 flex-1">
+                <dl>
+                  <dt class="text-sm font-medium text-gray-500 truncate">
+                    Active Units
+                  </dt>
+                  <dd class="flex items-baseline">
+                    <div class="text-2xl font-semibold text-gray-900">12</div>
+                    <div
+                      class="ml-2 flex items-baseline text-sm font-semibold text-green-600"
+                    >
+                      <i class="ri-arrow-up-s-line"></i>
+                      <span class="sr-only">Increased by</span>
+                      2
+                    </div>
+                  </dd>
+                </dl>
+              </div>
+              <div
+                class="w-12 h-12 flex items-center justify-center bg-green-100 rounded-full"
+              >
+                <i class="ri-team-line text-2xl text-green-600"></i>
+              </div>
+            </div>
+          </div>
+          <div class="bg-gray-50 px-5 py-3">
+            <div class="text-sm">
+              <a href="#" class="font-medium text-primary hover:text-primary">
+                View all units
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="bg-white overflow-hidden shadow rounded-lg">
+          <div class="p-5">
+            <div class="flex items-center">
+              <div class="w-0 flex-1">
+                <dl>
+                  <dt class="text-sm font-medium text-gray-500 truncate">
+                    Critical Alerts
+                  </dt>
+                  <dd class="flex items-baseline">
+                    <div class="text-2xl font-semibold text-gray-900">3</div>
+                    <div
+                      class="ml-2 flex items-baseline text-sm font-semibold text-red-600"
+                    >
+                      <i class="ri-arrow-up-s-line"></i>
+                      <span class="sr-only">Increased by</span>
+                      1
+                    </div>
+                  </dd>
+                </dl>
+              </div>
+              <div
+                class="w-12 h-12 flex items-center justify-center bg-red-100 rounded-full"
+              >
+                <i class="ri-alert-line text-2xl text-red-600"></i>
+              </div>
+            </div>
+          </div>
+          <div class="bg-gray-50 px-5 py-3">
+            <div class="text-sm">
+              <a href="#" class="font-medium text-primary hover:text-primary">
+                View all alerts
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="bg-white overflow-hidden shadow rounded-lg">
+          <div class="p-5">
+            <div class="flex items-center">
+              <div class="w-0 flex-1">
+                <dl>
+                  <dt class="text-sm font-medium text-gray-500 truncate">
+                    System Status
+                  </dt>
+                  <dd class="flex items-baseline">
+                    <div class="text-2xl font-semibold text-gray-900">
+                      98.5%
+                    </div>
+                    <div
+                      class="ml-2 flex items-baseline text-sm font-semibold text-green-600"
+                    >
+                      <i class="ri-arrow-up-s-line"></i>
+                      <span class="sr-only">Increased by</span>
+                      0.5%
+                    </div>
+                  </dd>
+                </dl>
+              </div>
+              <div
+                class="w-12 h-12 flex items-center justify-center bg-blue-100 rounded-full"
+              >
+                <i class="ri-pulse-line text-2xl text-blue-600"></i>
+              </div>
+            </div>
+          </div>
+          <div class="bg-gray-50 px-5 py-3">
+            <div class="text-sm">
+              <a href="#" class="font-medium text-primary hover:text-primary">
+                View system status
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mt-12" id="units">
+        <h2
+          class="text-2xl font-bold text-gray-900 mb-6 opacity-0 transform translate-y-4 transition-all duration-500"
+          data-animate="true"
+        >
+          Active Units Overview
+        </h2>
+        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div class="bg-white shadow rounded-lg overflow-hidden">
+            <div class="p-5">
+              <h3 class="text-lg font-medium text-gray-900">Unit Alpha</h3>
+              <div class="mt-4 flex items-center justify-between">
+                <div class="flex items-center">
+                  <img
+                    src="https://public.readdy.ai/ai/img_res/4c6748bdece0d214246bdfc9ba091621.jpg"
+                    class="w-10 h-10 rounded-full"
+                  />
+                  <div class="ml-3">
+                    <p class="text-sm font-medium text-gray-900">
+                      Lt. Michael Carter
+                    </p>
+                    <p class="text-sm text-gray-500">Squad Leader</p>
+                  </div>
+                </div>
+                <div class="flex items-center">
+                  <span
+                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800"
+                  >
+                    Active
+                  </span>
+                </div>
+              </div>
+              <div class="mt-4">
+                <div id="unit-alpha-chart" class="vital-chart"></div>
+              </div>
+            </div>
+            <div class="bg-gray-50 px-5 py-3">
+              <a
+                href="#"
+                class="text-sm font-medium text-primary hover:text-primary"
+                >View details</a
+              >
+            </div>
+          </div>
+          <div class="bg-white shadow rounded-lg overflow-hidden">
+            <div class="p-5">
+              <h3 class="text-lg font-medium text-gray-900">Unit Bravo</h3>
+              <div class="mt-4 flex items-center justify-between">
+                <div class="flex items-center">
+                  <img
+                    src="https://public.readdy.ai/ai/img_res/d3c9c962fc4d9d8a5b938fd0d4047e8b.jpg"
+                    class="w-10 h-10 rounded-full"
+                  />
+                  <div class="ml-3">
+                    <p class="text-sm font-medium text-gray-900">
+                      Lt. Sarah Reynolds
+                    </p>
+                    <p class="text-sm text-gray-500">Squad Leader</p>
+                  </div>
+                </div>
+                <div class="flex items-center">
+                  <span
+                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800"
+                  >
+                    On Mission
+                  </span>
+                </div>
+              </div>
+              <div class="mt-4">
+                <div id="unit-bravo-chart" class="vital-chart"></div>
+              </div>
+            </div>
+            <div class="bg-gray-50 px-5 py-3">
+              <a
+                href="#"
+                class="text-sm font-medium text-primary hover:text-primary"
+                >View details</a
+              >
+            </div>
+          </div>
+          <div class="bg-white shadow rounded-lg overflow-hidden">
+            <div class="p-5">
+              <h3 class="text-lg font-medium text-gray-900">Unit Charlie</h3>
+              <div class="mt-4 flex items-center justify-between">
+                <div class="flex items-center">
+                  <img
+                    src="https://public.readdy.ai/ai/img_res/d5d011c324b27239e9f158614dfc051e.jpg"
+                    class="w-10 h-10 rounded-full"
+                  />
+                  <div class="ml-3">
+                    <p class="text-sm font-medium text-gray-900">
+                      Sgt. David Thompson
+                    </p>
+                    <p class="text-sm text-gray-500">Squad Leader</p>
+                  </div>
+                </div>
+                <div class="flex items-center">
+                  <span
+                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800"
+                  >
+                    Active
+                  </span>
+                </div>
+              </div>
+              <div class="mt-4">
+                <div id="unit-charlie-chart" class="vital-chart"></div>
+              </div>
+            </div>
+            <div class="bg-gray-50 px-5 py-3">
+              <a
+                href="#"
+                class="text-sm font-medium text-primary hover:text-primary"
+                >View details</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mt-12" id="map">
+        <h2
+          class="text-2xl font-bold text-gray-900 mb-6 opacity-0 transform translate-y-4 transition-all duration-500"
+          data-animate="true"
+        >
+          Geographic Overview
+        </h2>
+        <div class="bg-white shadow rounded-lg overflow-hidden">
+          <div class="p-5">
+            <div class="flex gap-4 mb-4">
+              <div class="flex-1 relative">
+                <i
+                  class="ri-search-line absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+                ></i>
+                <input
+                  type="text"
+                  id="location-search"
+                  placeholder="Search location..."
+                  class="w-full pl-10 pr-4 py-2 rounded-button border border-gray-300 focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50"
+                />
+              </div>
+              <button
+                onclick="getCurrentLocation()"
+                class="px-4 py-2 bg-primary text-white rounded-button flex items-center gap-2 hover:bg-opacity-90"
+              >
+                <i class="ri-map-pin-line"></i>
+                Current Location
+              </button>
+            </div>
+            <div
+              class="map-container h-96 bg-center bg-cover rounded-lg relative"
+            >
+              <div class="absolute top-4 right-4 flex flex-col gap-2">
+                <button
+                  onclick="zoomIn()"
+                  class="w-8 h-8 bg-white rounded-full shadow-lg flex items-center justify-center hover:bg-gray-50"
+                >
+                  <i class="ri-add-line"></i>
+                </button>
+                <button
+                  onclick="zoomOut()"
+                  class="w-8 h-8 bg-white rounded-full shadow-lg flex items-center justify-center hover:bg-gray-50"
+                >
+                  <i class="ri-subtract-line"></i>
+                </button>
+                <button
+                  onclick="toggleSatellite()"
+                  class="w-8 h-8 bg-white rounded-full shadow-lg flex items-center justify-center hover:bg-gray-50"
+                >
+                  <i class="ri-earth-line"></i>
+                </button>
+              </div>
+              <div id="unit-markers"></div>
+            </div>
+            <div class="mt-4 flex gap-4 flex-wrap">
+              <div class="flex items-center gap-2">
+                <span class="w-3 h-3 rounded-full bg-green-500"></span>
+                <span class="text-sm text-gray-600">Active Units</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="w-3 h-3 rounded-full bg-yellow-500"></span>
+                <span class="text-sm text-gray-600">On Mission</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="w-3 h-3 rounded-full bg-red-500"></span>
+                <span class="text-sm text-gray-600">Alert Status</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mt-12" id="updates">
+        <h2
+          class="text-2xl font-bold text-gray-900 mb-6 opacity-0 transform translate-y-4 transition-all duration-500"
+          data-animate="true"
+        >
+          Latest Updates
+        </h2>
+        <div class="bg-white shadow rounded-lg overflow-hidden">
+          <div class="p-5">
+            <div class="flow-root">
+              <ul class="-mb-8">
+                <li class="relative pb-8">
+                  <div class="relative flex space-x-3">
+                    <div>
+                      <span
+                        class="h-8 w-8 rounded-full bg-green-500 flex items-center justify-center ring-8 ring-white"
+                      >
+                        <i class="ri-check-line text-white"></i>
+                      </span>
+                    </div>
+                    <div
+                      class="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4"
+                    >
+                      <div>
+                        <p class="text-sm text-gray-500">
+                          Unit Alpha completed training exercise with
+                          <span class="font-medium text-gray-900"
+                            >98% success rate</span
+                          >
+                        </p>
+                      </div>
+                      <div
+                        class="text-right text-sm whitespace-nowrap text-gray-500"
+                      >
+                        <time datetime="2025-03-07">1h ago</time>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li class="relative pb-8">
+                  <div class="relative flex space-x-3">
+                    <div>
+                      <span
+                        class="h-8 w-8 rounded-full bg-blue-500 flex items-center justify-center ring-8 ring-white"
+                      >
+                        <i class="ri-map-pin-line text-white"></i>
+                      </span>
+                    </div>
+                    <div
+                      class="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4"
+                    >
+                      <div>
+                        <p class="text-sm text-gray-500">
+                          Unit Bravo deployed to
+                          <span class="font-medium text-gray-900"
+                            >Sector 7</span
+                          >
+                        </p>
+                      </div>
+                      <div
+                        class="text-right text-sm whitespace-nowrap text-gray-500"
+                      >
+                        <time datetime="2025-03-07">3h ago</time>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li class="relative pb-8">
+                  <div class="relative flex space-x-3">
+                    <div>
+                      <span
+                        class="h-8 w-8 rounded-full bg-yellow-500 flex items-center justify-center ring-8 ring-white"
+                      >
+                        <i class="ri-alert-line text-white"></i>
+                      </span>
+                    </div>
+                    <div
+                      class="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4"
+                    >
+                      <div>
+                        <p class="text-sm text-gray-500">
+                          System maintenance scheduled for
+                          <span class="font-medium text-gray-900"
+                            >March 8, 2025</span
+                          >
+                        </p>
+                      </div>
+                      <div
+                        class="text-right text-sm whitespace-nowrap text-gray-500"
+                      >
+                        <time datetime="2025-03-07">5h ago</time>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer class="bg-[#1C1C1C] border-t border-gray-800">
+      <div
+        class="max-w-7xl mx-auto py-12 px-4 sm:px-6 md:flex md:items-center md:justify-between lg:px-8"
+      >
+        <div class="flex justify-center space-x-6 md:order-2">
+          <a href="#" class="text-gray-400 hover:text-gray-500">
+            <i class="ri-twitter-line"></i>
+          </a>
+          <a href="#" class="text-gray-400 hover:text-gray-500">
+            <i class="ri-facebook-line"></i>
+          </a>
+          <a href="#" class="text-gray-400 hover:text-gray-500">
+            <i class="ri-instagram-line"></i>
+          </a>
+        </div>
+        <div class="mt-8 md:mt-0 md:order-1">
+          <p class="text-center text-base text-gray-400">
+            &copy; 2025 Military Health Monitoring System. All rights reserved.
+          </p>
+        </div>
+      </div>
+    </footer>
+    <script>
+      let mapMode = "standard";
+      let currentZoom = 1;
+      const maxZoom = 2;
+      const minZoom = 0.5;
+      function zoomIn() {
+        if (currentZoom < maxZoom) {
+          currentZoom += 0.1;
+          document.querySelector(".map-container").style.transform =
+            `scale(${currentZoom})`;
+        }
+      }
+      function zoomOut() {
+        if (currentZoom > minZoom) {
+          currentZoom -= 0.1;
+          document.querySelector(".map-container").style.transform =
+            `scale(${currentZoom})`;
+        }
+      }
+      function toggleSatellite() {
+        const mapContainer = document.querySelector(".map-container");
+        mapMode = mapMode === "standard" ? "satellite" : "standard";
+
+        if (mapMode === "satellite") {
+          mapContainer.style.filter = "saturate(1.2) contrast(1.1)";
+        } else {
+          mapContainer.style.filter = "none";
+        }
+      }
+      function getCurrentLocation() {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(
+            (position) => {
+              const { latitude, longitude } = position.coords;
+              showLocationToast(
+                `Location found: ${latitude.toFixed(4)}, ${longitude.toFixed(4)}`,
+              );
+            },
+            () => {
+              showLocationToast("Unable to get your location", "error");
+            },
+          );
+        } else {
+          showLocationToast("Geolocation is not supported by your browser", "error");
+        }
+      }
+      function showLocationToast(message, type = "success") {
+        const toast = document.createElement("div");
+        toast.className = `fixed bottom-4 right-4 px-6 py-3 rounded-lg shadow-lg ${
+          type === "success" ? "bg-green-500" : "bg-red-500"
+        } text-white z-50 animate-fadeIn`;
+        toast.textContent = message;
+        document.body.appendChild(toast);
+
+        setTimeout(() => {
+          toast.remove();
+        }, 3000);
+      }
+      let searchTimeout;
+      document.addEventListener("DOMContentLoaded", () => {
+        const searchInput = document.getElementById("location-search");
+
+        searchInput.addEventListener("input", (e) => {
+          clearTimeout(searchTimeout);
+          searchTimeout = setTimeout(() => {
+            const searchTerm = e.target.value.trim();
+            if (searchTerm.length > 2) {
+              searchLocation(searchTerm);
+            }
+          }, 500);
+        });
+      });
+      function searchLocation(term) {
+        // Simulated search results
+        const mockLocations = [
+          { name: "Base Alpha", coords: [51.5074, -0.1278] },
+          { name: "Base Bravo", coords: [40.7128, -74.006] },
+          { name: "Base Charlie", coords: [35.6762, 139.6503] },
+        ];
+
+        const results = mockLocations.filter((loc) =>
+          loc.name.toLowerCase().includes(term.toLowerCase()),
+        );
+
+        if (results.length > 0) {
+          showLocationToast(`Found ${results.length} matching locations`);
+        } else {
+          showLocationToast("No locations found", "error");
+        }
+      }
+      document.addEventListener("DOMContentLoaded", () => {
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+          anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            document.querySelector(this.getAttribute("href")).scrollIntoView({
+              behavior: "smooth",
+            });
+          });
+        });
+        // Animate cards
+        const cards = document.querySelectorAll(".bg-[#1C1C1C]");
+        cards.forEach((card, index) => {
+          card.style.animation = `fadeIn 0.5s ease-out ${index * 0.1}s forwards`;
+          card.classList.add("card-hover");
+        });
+        // Intersection Observer for scroll animations
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.style.opacity = "1";
+                entry.target.style.transform = "translateY(0)";
+              }
+            });
+          },
+          {
+            threshold: 0.1,
+          },
+        );
+        // Observe all elements with data-animate attribute
+        document.querySelectorAll('[data-animate="true"]').forEach((el) => {
+          observer.observe(el);
+        });
+        // Active navigation link highlight
+        const sections = document.querySelectorAll("div[id]");
+        window.addEventListener("scroll", () => {
+          let current = "";
+          sections.forEach((section) => {
+            const sectionTop = section.offsetTop;
+            if (window.pageYOffset >= sectionTop - 60) {
+              current = section.getAttribute("id");
+            }
+          });
+          document.querySelectorAll(".nav-link").forEach((link) => {
+            link.classList.remove("text-white");
+            link.classList.add("text-gray-400");
+            if (link.getAttribute("href") === `#${current}`) {
+              link.classList.remove("text-gray-400");
+              link.classList.add("text-white");
+            }
+          });
+        });
+      });
+      // Add modal HTML to body
+      document.body.insertAdjacentHTML(
+        "beforeend",
+        `
+      <div id="healthMetricsModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+      <div class="bg-white rounded-lg w-full max-w-4xl p-6 max-h-[90vh] overflow-y-auto">
+      <div class="flex justify-between items-center mb-6">
+      <h3 class="text-2xl font-bold text-gray-900">Health Metrics Details</h3>
+      <button class="text-gray-400 hover:text-gray-500" onclick="closeHealthModal()">
+      <i class="ri-close-line text-2xl"></i>
+      </button>
+      </div>
+      <div class="flex gap-4 mb-6">
+      <button class="px-4 py-2 rounded-button bg-primary text-white" onclick="updateTimeRange('24h')">24h</button>
+      <button class="px-4 py-2 rounded-button border border-gray-300" onclick="updateTimeRange('7d')">7d</button>
+      <button class="px-4 py-2 rounded-button border border-gray-300" onclick="updateTimeRange('30d')">30d</button>
+      <button class="ml-auto px-4 py-2 rounded-button border border-gray-300 flex items-center gap-2" onclick="exportData()">
+      <i class="ri-download-line"></i> Export Data
+      </button>
+      </div>
+      <div id="detailedChart" class="h-96 mb-6"></div>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div class="bg-gray-50 p-4 rounded-lg">
+      <div class="text-sm text-gray-500">Heart Rate</div>
+      <div class="text-2xl font-bold text-gray-900">85 BPM</div>
+      </div>
+      <div class="bg-gray-50 p-4 rounded-lg">
+      <div class="text-sm text-gray-500">Blood Pressure</div>
+      <div class="text-2xl font-bold text-gray-900">120/80</div>
+      </div>
+      <div class="bg-gray-50 p-4 rounded-lg">
+      <div class="text-sm text-gray-500">Temperature</div>
+      <div class="text-2xl font-bold text-gray-900">98.6°F</div>
+      </div>
+      <div class="bg-gray-50 p-4 rounded-lg">
+      <div class="text-sm text-gray-500">Stress Level</div>
+      <div class="text-2xl font-bold text-gray-900">Normal</div>
+      </div>
+      </div>
+      </div>
+      </div>
+      `,
+      );
+      function initCharts() {
+        const mockData = {
+          "24h": {
+            times: Array.from({ length: 24 }, (_, i) => `${i}:00`),
+            heartRate: Array.from({ length: 24 }, () => 60 + Math.random() * 40),
+            bloodPressure: Array.from({ length: 24 }, () => [
+              110 + Math.random() * 20,
+              70 + Math.random() * 20,
+            ]),
+            temperature: Array.from({ length: 24 }, () => 97.5 + Math.random() * 2),
+            stressLevel: Array.from({ length: 24 }, () => Math.random() * 100),
+          },
+          "7d": {
+            times: Array.from(
+              { length: 7 },
+              (_, i) => ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][i],
+            ),
+            heartRate: Array.from({ length: 7 }, () => 60 + Math.random() * 40),
+            bloodPressure: Array.from({ length: 7 }, () => [
+              110 + Math.random() * 20,
+              70 + Math.random() * 20,
+            ]),
+            temperature: Array.from({ length: 7 }, () => 97.5 + Math.random() * 2),
+            stressLevel: Array.from({ length: 7 }, () => Math.random() * 100),
+          },
+          "30d": {
+            times: Array.from({ length: 30 }, (_, i) => `Day ${i + 1}`),
+            heartRate: Array.from({ length: 30 }, () => 60 + Math.random() * 40),
+            bloodPressure: Array.from({ length: 30 }, () => [
+              110 + Math.random() * 20,
+              70 + Math.random() * 20,
+            ]),
+            temperature: Array.from({ length: 30 }, () => 97.5 + Math.random() * 2),
+            stressLevel: Array.from({ length: 30 }, () => Math.random() * 100),
+          },
+        };
+        let currentTimeRange = "24h";
+        let detailedChart = null;
+        const charts = ["unit-alpha-chart", "unit-bravo-chart", "unit-charlie-chart"];
+        charts.forEach((chartId) => {
+          const chart = echarts.init(document.getElementById(chartId));
+          const option = {
+            animation: false,
+            grid: {
+              top: 10,
+              right: 10,
+              bottom: 10,
+              left: 10,
+              containLabel: true,
+            },
+            xAxis: {
+              type: "category",
+              data: ["Mon", "Tue", "Wed", "Thu", "Fri"],
+              axisLine: { show: false },
+              axisTick: { show: false },
+              axisLabel: { show: false },
+            },
+            yAxis: {
+              type: "value",
+              show: false,
+            },
+            series: [
+              {
+                data: [90, 93, 89, 94, 92],
+                type: "line",
+                smooth: true,
+                symbol: "none",
+                lineStyle: {
+                  color: "rgba(87, 181, 231, 1)",
+                  width: 3,
+                },
+                areaStyle: {
+                  color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                    {
+                      offset: 0,
+                      color: "rgba(87, 181, 231, 0.3)",
+                    },
+                    {
+                      offset: 1,
+                      color: "rgba(87, 181, 231, 0.1)",
+                    },
+                  ]),
+                },
+              },
+            ],
+          };
+          chart.setOption(option);
+          chart.getZr().on("click", () => {
+            showHealthModal();
+          });
+        });
+        function showHealthModal() {
+          const modal = document.getElementById("healthMetricsModal");
+          modal.classList.remove("hidden");
+          modal.classList.add("flex");
+          if (!detailedChart) {
+            detailedChart = echarts.init(document.getElementById("detailedChart"));
+          }
+          updateDetailedChart(currentTimeRange);
+        }
+        window.closeHealthModal = function () {
+          const modal = document.getElementById("healthMetricsModal");
+          modal.classList.add("hidden");
+          modal.classList.remove("flex");
+        };
+        window.updateTimeRange = function (range) {
+          currentTimeRange = range;
+          updateDetailedChart(range);
+          // Update button styles
+          document.querySelectorAll("#healthMetricsModal button").forEach((btn) => {
+            if (btn.textContent.includes(range)) {
+              btn.classList.add("bg-primary", "text-white");
+              btn.classList.remove("border", "border-gray-300");
+            } else if (!btn.textContent.includes("Export")) {
+              btn.classList.remove("bg-primary", "text-white");
+              btn.classList.add("border", "border-gray-300");
+            }
+          });
+        };
+        function updateDetailedChart(range) {
+          const data = mockData[range];
+          const option = {
+            animation: false,
+            tooltip: {
+              trigger: "axis",
+              backgroundColor: "rgba(255, 255, 255, 0.9)",
+              borderColor: "#ddd",
+              borderWidth: 1,
+              textStyle: {
+                color: "#333",
+              },
+            },
+            legend: {
+              data: ["Heart Rate", "Blood Pressure", "Temperature", "Stress Level"],
+              top: 0,
+            },
+            grid: {
+              top: 50,
+              right: 20,
+              bottom: 20,
+              left: 50,
+            },
+            xAxis: {
+              type: "category",
+              data: data.times,
+              axisLine: { show: true },
+              axisTick: { show: true },
+            },
+            yAxis: [
+              {
+                type: "value",
+                name: "BPM / mmHg",
+                splitLine: { show: false },
+              },
+              {
+                type: "value",
+                name: "°F / %",
+                splitLine: { show: false },
+              },
+            ],
+            series: [
+              {
+                name: "Heart Rate",
+                type: "line",
+                smooth: true,
+                data: data.heartRate,
+                itemStyle: { color: "rgba(87, 181, 231, 1)" },
+              },
+              {
+                name: "Blood Pressure",
+                type: "line",
+                smooth: true,
+                data: data.bloodPressure.map((bp) => bp[0]),
+                itemStyle: { color: "rgba(141, 211, 199, 1)" },
+              },
+              {
+                name: "Temperature",
+                type: "line",
+                smooth: true,
+                yAxisIndex: 1,
+                data: data.temperature,
+                itemStyle: { color: "rgba(251, 191, 114, 1)" },
+              },
+              {
+                name: "Stress Level",
+                type: "line",
+                smooth: true,
+                yAxisIndex: 1,
+                data: data.stressLevel,
+                itemStyle: { color: "rgba(252, 141, 98, 1)" },
+              },
+            ],
+          };
+          detailedChart.setOption(option);
+        }
+        window.exportData = function () {
+          const data = mockData[currentTimeRange];
+          const csvContent =
+            "data:text/csv;charset=utf-8," +
+            "Time,Heart Rate,Blood Pressure,Temperature,Stress Level\n" +
+            data.times
+              .map(
+                (time, i) =>
+                  `${time},${data.heartRate[i]},${data.bloodPressure[i].join("/")},${data.temperature[i]},${data.stressLevel[i]}`,
+              )
+              .join("\n");
+          const encodedUri = encodeURI(csvContent);
+          const link = document.createElement("a");
+          link.setAttribute("href", encodedUri);
+          link.setAttribute("download", `health_metrics_${currentTimeRange}.csv`);
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        };
+      }
+      document.addEventListener("DOMContentLoaded", initCharts);
+    </script>
+  </body>
+</html>
