@@ -8,138 +8,20 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap"
       rel="stylesheet"
     />
     <link
       href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css"
       rel="stylesheet"
     />
-    <style>
-      :where([class^="ri-"])::before { content: "\f3c2"; }
-      @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-      }
-      @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-      100% { transform: scale(1); }
-      }
-      @keyframes slideIn {
-      from { transform: translateX(-20px); opacity: 0; }
-      to { transform: translateX(0); opacity: 1; }
-      }
-      @keyframes glow {
-      0% { box-shadow: 0 0 5px rgba(77, 93, 83, 0.2); }
-      50% { box-shadow: 0 0 20px rgba(77, 93, 83, 0.6); }
-      100% { box-shadow: 0 0 5px rgba(77, 93, 83, 0.2); }
-      }
-      @keyframes float {
-      0% { transform: translateY(0px); }
-      50% { transform: translateY(-10px); }
-      100% { transform: translateY(0px); }
-      }
-      @keyframes progressPulse {
-      0% { transform: scale(1); opacity: 0.6; }
-      50% { transform: scale(1.02); opacity: 1; }
-      100% { transform: scale(1); opacity: 0.6; }
-      }
-      @keyframes borderGlow {
-      0% { border-color: #4D5D53; }
-      50% { border-color: #8B7355; }
-      100% { border-color: #4D5D53; }
-      }
-      @keyframes rotateIcon {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-      }
-      body {
-      font-family: 'Roboto Mono', monospace;
-      background: #1C2315;
-      background-image:
-      linear-gradient(45deg, rgba(75, 83, 32, 0.1) 25%, transparent 25%),
-      linear-gradient(-45deg, rgba(75, 83, 32, 0.1) 25%, transparent 25%),
-      linear-gradient(45deg, transparent 75%, rgba(75, 83, 32, 0.1) 75%),
-      linear-gradient(-45deg, transparent 75%, rgba(75, 83, 32, 0.1) 75%);
-      background-size: 20px 20px;
-      min-height: 100vh;
-      }
-      .upload-zone {
-      animation: fadeIn 0.5s ease-out;
-      }
-      .upload-zone:hover {
-      animation: pulse 1s infinite;
-      }
-      .timeline-marker:hover {
-      transform: scale(1.2);
-      transition: transform 0.2s ease;
-      }
-      button {
-      transition: all 0.3s ease;
-      }
-      button:hover {
-      transform: translateY(-2px);
-      }
-      .notification {
-      animation: slideIn 0.3s ease-out;
-      }
-      .upload-zone {
-      border: 2px dashed #4B5320;
-      transition: all 0.3s;
-      animation: borderGlow 3s infinite;
-      }
-      .upload-zone.dragover {
-      border-color: #8B4513;
-      background: rgba(75, 83, 32, 0.1);
-      animation: glow 1.5s infinite;
-      }
-      .upload-zone i {
-      animation: float 3s ease-in-out infinite;
-      }
-      .timeline {
-      background: linear-gradient(to right, #4B5320 0%, #4B5320 30%, #1A1A1A 30%);
-      height: 4px;
-      }
-      .timeline-marker {
-      width: 12px;
-      height: 12px;
-      background: #8B4513;
-      border-radius: 50%;
-      position: absolute;
-      top: -4px;
-      left: 30%;
-      cursor: pointer;
-      }
-      .custom-range::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      appearance: none;
-      width: 16px;
-      height: 16px;
-      background: #4B5320;
-      border-radius: 50%;
-      cursor: pointer;
-      }
-    </style>
     <script>
       tailwind.config = {
         theme: {
           extend: {
             colors: {
-              primary: "#4D5D53",
-              secondary: "#8B7355",
-              accent: "#556B2F",
-              military: {
-                100: "#E2E5DE",
-                200: "#B8BDB1",
-                300: "#8F9683",
-                400: "#656F55",
-                500: "#4D5D53",
-                600: "#3C4A3E",
-                700: "#2B372C",
-                800: "#1A241B",
-                900: "#0D120E",
-              },
+              primary: "#0A2A12",
+              secondary: "#1B4332",
             },
             borderRadius: {
               none: "0px",
@@ -157,223 +39,438 @@
         },
       };
     </script>
+    <style>
+      :where([class^="ri-"])::before { content: "\f3c2"; }
+      body {
+      font-family: 'Share Tech Mono', monospace;
+      background-color: #081C15;
+      background-image: linear-gradient(rgba(8, 28, 21, 0.95), rgba(8, 28, 21, 0.95)),
+      repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 255, 0, 0.1) 2px, rgba(0, 255, 0, 0.1) 4px);
+      color: #B7E4C7;
+      }
+      @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+      }
+      @keyframes glowPulse {
+      0% { box-shadow: 0 0 5px rgba(64, 145, 108, 0.2); }
+      50% { box-shadow: 0 0 20px rgba(64, 145, 108, 0.4); }
+      100% { box-shadow: 0 0 5px rgba(64, 145, 108, 0.2); }
+      }
+      @keyframes scanline {
+      0% { transform: translateY(-100%); }
+      100% { transform: translateY(100%); }
+      }
+      .scanline {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: rgba(64, 145, 108, 0.2);
+      opacity: 0.75;
+      animation: scanline 2s linear infinite;
+      pointer-events: none;
+      }
+      .fade-in {
+      animation: fadeIn 0.6s ease-out forwards;
+      }
+      .glow-effect {
+      animation: glowPulse 2s infinite;
+      }
+      .hover-scale {
+      transition: transform 0.2s ease;
+      }
+      .hover-scale:hover {
+      transform: scale(1.05);
+      }
+      .slide-in {
+      opacity: 0;
+      transform: translateX(-20px);
+      animation: slideIn 0.5s ease forwards;
+      }
+      @keyframes slideIn {
+      to {
+      opacity: 1;
+      transform: translateX(0);
+      }
+      }
+      .blink {
+      animation: blink 1s infinite;
+      }
+      @keyframes blink {
+      50% { opacity: 0.5; }
+      }
+      .button-hover {
+      transition: all 0.3s ease;
+      }
+      .button-hover:hover {
+      background: rgba(64, 145, 108, 0.2);
+      transform: translateY(-2px);
+      }
+      #detection-overlay {
+      z-index: 5;
+      }
+      .detection-box {
+      animation: pulse 2s infinite;
+      }
+      @keyframes pulse {
+      0% { border-color: rgba(64, 145, 108, 0.4); }
+      50% { border-color: rgba(64, 145, 108, 0.8); }
+      100% { border-color: rgba(64, 145, 108, 0.4); }
+      }
+      .drop-zone {
+      border: 2px dashed #2D6A4F;
+      background: rgba(45, 106, 79, 0.2);
+      }
+      .drop-zone.dragover {
+      border-color: #40916C;
+      background: rgba(64, 145, 108, 0.3);
+      }
+      .slider {
+      -webkit-appearance: none;
+      height: 4px;
+      border-radius: 2px;
+      background: #2D6A4F;
+      outline: none;
+      }
+      .slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #40916C;
+      cursor: pointer;
+      }
+      .progress-bar {
+      height: 4px;
+      background: #2D6A4F;
+      border-radius: 2px;
+      }
+      .progress-value {
+      height: 100%;
+      background: #40916C;
+      border-radius: 2px;
+      transition: width 0.3s ease;
+      }
+    </style>
   </head>
-  <body class="text-gray-100">
-    <header
-      class="fixed top-0 left-0 right-0 h-16 bg-military-700 border-b border-primary z-50 backdrop-blur-sm bg-opacity-90"
-    >
-      <div
-        class="container mx-auto px-6 h-full flex items-center justify-between"
-      >
+  <body class="min-h-screen">
+    <header class="py-4 border-b border-green-900">
+      <div class="container mx-auto px-4 flex items-center justify-between">
         <div class="flex items-center space-x-4">
-          <div class="w-8 h-8 flex items-center justify-center">
-            <i
-              class="ri-radar-line text-2xl text-primary"
-              style="animation: rotateIcon 4s linear infinite;"
-            ></i>
+          <div class="w-10 h-10 flex items-center justify-center">
+            <i class="ri-radar-line text-2xl"></i>
           </div>
-          <h1 class="text-2xl font-bold">Mission Video Analysis</h1>
+          <h1 class="text-2xl">Mission Video Analysis</h1>
         </div>
         <div class="flex items-center space-x-6">
-          <div class="flex items-center space-x-2">
-            <span class="text-sm">Security Level:</span>
-            <span class="px-2 py-1 bg-primary text-xs rounded-full"
-              >TOP SECRET</span
-            >
-          </div>
+          <div class="text-sm">Security Level: TOP SECRET</div>
           <div class="flex items-center space-x-2">
             <div
-              class="w-8 h-8 rounded-full bg-secondary flex items-center justify-center"
+              class="w-8 h-8 rounded-full bg-green-800 flex items-center justify-center"
             >
-              <i class="ri-user-3-line"></i>
+              <i class="ri-user-line"></i>
             </div>
-            <span>Cmdr. James Wilson</span>
+            <span class="text-sm">Cmdr. James Wilson</span>
           </div>
         </div>
       </div>
     </header>
-    <main class="container mx-auto px-6 pt-24 pb-20">
-      <div class="grid grid-cols-3 gap-6">
-        <div class="col-span-2">
+    <main class="container mx-auto px-4 py-8 grid grid-cols-3 gap-8">
+      <div class="col-span-2">
+        <div id="upload-section" class="mb-8">
           <div
-            id="uploadZone"
-            class="upload-zone rounded-lg p-8 mb-6 flex flex-col items-center justify-center cursor-pointer"
+            id="drop-zone"
+            class="drop-zone rounded p-8 text-center cursor-pointer hover-scale"
           >
-            <div class="w-16 h-16 flex items-center justify-center mb-4">
-              <i class="ri-upload-cloud-line text-4xl text-primary"></i>
+            <div
+              class="w-16 h-16 mx-auto mb-4 flex items-center justify-center blink"
+            >
+              <i class="ri-upload-cloud-line text-4xl"></i>
             </div>
-            <h3 class="text-xl font-semibold mb-2">Upload Mission Video</h3>
-            <p class="text-gray-400 text-sm mb-4">
+            <p class="mb-2">Upload Mission Video</p>
+            <p class="text-sm opacity-70 mb-4">
               Drag & drop video file here or click to browse
             </p>
-            <div class="flex space-x-2">
-              <span class="px-2 py-1 bg-[#2A2A2A] rounded text-xs">.MP4</span>
-              <span class="px-2 py-1 bg-[#2A2A2A] rounded text-xs">.AVI</span>
-              <span class="px-2 py-1 bg-[#2A2A2A] rounded text-xs">.MKV</span>
-              <span class="px-2 py-1 bg-[#2A2A2A] rounded text-xs">.MOV</span>
+            <div class="flex justify-center space-x-4">
+              <span class="px-3 py-1 bg-green-900 bg-opacity-30 rounded text-sm"
+                >.MP4</span
+              >
+              <span class="px-3 py-1 bg-green-900 bg-opacity-30 rounded text-sm"
+                >.AVI</span
+              >
+              <span class="px-3 py-1 bg-green-900 bg-opacity-30 rounded text-sm"
+                >.MKV</span
+              >
+              <span class="px-3 py-1 bg-green-900 bg-opacity-30 rounded text-sm"
+                >.MOV</span
+              >
             </div>
+            <input
+              type="file"
+              id="file-input"
+              class="hidden"
+              accept="video/*"
+            />
           </div>
-          <div class="bg-[#232323] rounded-lg p-4 mb-6">
-            <div class="aspect-video bg-black rounded relative mb-4">
-              <div class="absolute inset-0 flex items-center justify-center">
-                <i class="ri-film-line text-6xl text-gray-600"></i>
-              </div>
-              <div class="absolute bottom-0 left-0 right-0 p-4">
-                <div class="relative w-full h-1 bg-[#1A1A1A] rounded-full mb-4">
-                  <div class="timeline rounded-full"></div>
-                  <div class="timeline-marker"></div>
-                </div>
-                <div class="flex items-center justify-between">
-                  <div class="flex items-center space-x-4">
-                    <button
-                      class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-[#2A2A2A] transition-all duration-300 hover:shadow-lg hover:shadow-primary/20"
-                    >
-                      <i
-                        class="ri-play-line text-xl transition-transform duration-300 hover:scale-110"
-                      ></i>
-                    </button>
-                    <span class="text-sm">00:00 / 00:00</span>
-                  </div>
-                  <div class="flex items-center space-x-4">
-                    <button
-                      class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-[#2A2A2A]"
-                    >
-                      <i class="ri-bookmark-line text-xl"></i>
-                    </button>
-                    <button
-                      class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-[#2A2A2A]"
-                    >
-                      <i class="ri-camera-line text-xl"></i>
-                    </button>
-                    <button
-                      class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-[#2A2A2A]"
-                    >
-                      <i class="ri-fullscreen-line text-xl"></i>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
+        </div>
+        <div
+          id="video-player"
+          class="hidden mb-8 bg-black rounded relative fade-in"
+        >
+          <div class="scanline"></div>
+          <div
+            id="person-counter"
+            class="person-counter hidden absolute top-4 right-4 bg-black bg-opacity-70 px-4 py-2 rounded-lg z-10 flex items-center space-x-2"
+          >
+            <i class="ri-user-search-line text-green-400"></i>
+            <span class="text-green-400"
+              >Persons Detected:
+              <span id="person-count" class="font-bold">0</span></span
+            >
           </div>
           <div
-            class="bg-military-700 rounded-lg p-4 hover:shadow-lg transition-all duration-500 hover:translate-y-[-4px] hover:bg-military-600"
-          >
-            <h3 class="text-lg font-semibold mb-4">Generated Captions</h3>
-            <div
-              class="h-48 bg-military-800 rounded p-4 mb-4 overflow-y-auto transition-all duration-300 hover:bg-military-700"
-            >
-              <div class="space-y-2">
-                <p class="text-sm">
-                  <span class="text-primary">[00:00]</span> Mission briefing
-                  commenced. Target location identified.
-                </p>
-                <p class="text-sm">
-                  <span class="text-primary">[00:15]</span> Squad Alpha moving
-                  into position from the northwest.
-                </p>
-                <p class="text-sm">
-                  <span class="text-primary">[00:30]</span> Thermal signatures
-                  detected in the target building.
-                </p>
+            id="detection-overlay"
+            class="absolute top-0 left-0 w-full h-full pointer-events-none"
+          ></div>
+          <video id="player" class="w-full rounded" controls>
+            Your browser does not support the video tag.
+          </video>
+          <div class="p-4 flex items-center justify-between text-sm">
+            <div class="flex items-center space-x-4">
+              <div>00:00 / 00:00</div>
+              <div class="flex items-center space-x-2 text-green-400">
+                <i class="ri-radar-line blink"></i>
+                <span id="analysis-status">Ready for Analysis</span>
               </div>
             </div>
-            <div class="flex justify-end">
+            <div class="flex space-x-4">
               <button
-                class="px-4 py-2 bg-primary text-white rounded-button hover:bg-opacity-90 flex items-center space-x-2 transition-all duration-300 hover:shadow-lg hover:shadow-primary/20 active:transform active:scale-95"
+                class="hover:text-green-400 transition-colors duration-200 button-hover"
+              >
+                <i class="ri-bookmark-line"></i>
+              </button>
+              <button
+                class="hover:text-green-400 transition-colors duration-200 button-hover"
               >
                 <i class="ri-download-line"></i>
-                <span>Export Captions</span>
+              </button>
+              <button
+                class="hover:text-green-400 transition-colors duration-200 button-hover"
+              >
+                <i class="ri-fullscreen-line"></i>
               </button>
             </div>
           </div>
         </div>
-        <div class="space-y-6">
+        <div id="captions-section" class="hidden">
           <div
-            class="bg-military-700 rounded-lg p-4 hover:shadow-lg transition-all duration-500 hover:translate-y-[-4px] hover:bg-military-600"
+            class="border border-green-900 rounded p-4 relative overflow-hidden"
           >
-            <h3 class="text-lg font-semibold mb-4">Enhancement Controls</h3>
+            <div class="scanline"></div>
+            <div class="flex justify-between items-center mb-4">
+              <h3 class="flex items-center">
+                <i class="ri-file-text-line mr-2"></i>
+                Generated Captions
+              </h3>
+              <div class="relative">
+                <button
+                  id="export-btn"
+                  class="flex items-center space-x-2 text-sm hover:text-green-400 transition-colors duration-200"
+                >
+                  <i class="ri-download-line"></i>
+                  <span>Export Captions</span>
+                </button>
+                <div
+                  id="export-dropdown"
+                  class="hidden absolute right-0 mt-2 w-32 bg-[#0A2A12] border border-green-900 rounded shadow-lg z-10"
+                >
+                  <div class="py-1">
+                    <button
+                      class="w-full px-4 py-2 text-left text-sm hover:bg-green-900 hover:bg-opacity-30 transition-colors duration-200"
+                      onclick="exportCaptions('txt')"
+                    >
+                      TXT Format
+                    </button>
+                    <button
+                      class="w-full px-4 py-2 text-left text-sm hover:bg-green-900 hover:bg-opacity-30 transition-colors duration-200"
+                      onclick="exportCaptions('srt')"
+                    >
+                      SRT Format
+                    </button>
+                    <button
+                      class="w-full px-4 py-2 text-left text-sm hover:bg-green-900 hover:bg-opacity-30 transition-colors duration-200"
+                      onclick="exportCaptions('vtt')"
+                    >
+                      VTT Format
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <script>
+                const exportBtn = document.getElementById("export-btn");
+                const exportDropdown = document.getElementById("export-dropdown");
+                exportBtn.addEventListener("click", () => {
+                  exportDropdown.classList.toggle("hidden");
+                });
+                document.addEventListener("click", (e) => {
+                  if (!exportBtn.contains(e.target) && !exportDropdown.contains(e.target)) {
+                    exportDropdown.classList.add("hidden");
+                  }
+                });
+                function exportCaptions(format) {
+                  let content = "";
+
+                  switch (format) {
+                    case "txt":
+                      content = captions.map((c) => `[${c.time}] ${c.text}`).join("\n");
+                      break;
+                    case "srt":
+                      content = captions
+                        .map((c, i) => {
+                          return `${i + 1}\n${c.time}:00 --> ${c.time}:00\n${c.text}\n\n`;
+                        })
+                        .join("");
+                      break;
+                    case "vtt":
+                      content =
+                        `WEBVTT\n\n` +
+                        captions
+                          .map((c, i) => {
+                            return `${c.time}:00.000 --> ${c.time}:00.000\n${c.text}\n\n`;
+                          })
+                          .join("");
+                      break;
+                  }
+                  const blob = new Blob([content], { type: "text/plain" });
+                  const url = URL.createObjectURL(blob);
+                  const a = document.createElement("a");
+                  a.href = url;
+                  a.download = `captions.${format}`;
+                  document.body.appendChild(a);
+                  a.click();
+                  document.body.removeChild(a);
+                  URL.revokeObjectURL(url);
+                  exportDropdown.classList.add("hidden");
+                }
+              </script>
+            </div>
+            <div id="captions-container" class="space-y-2 text-sm"></div>
+          </div>
+          <script>
+            const captions = [
+              {
+                time: "00:00",
+                text: "Mission briefing commenced. Target location identified.",
+              },
+              {
+                time: "00:15",
+                text: "Squad Alpha moving into position from the northwest.",
+              },
+              {
+                time: "00:30",
+                text: "Thermal signatures detected in the target building.",
+              },
+              { time: "00:45", text: "Multiple persons detected in surveillance zone." },
+              { time: "01:00", text: "Facial recognition scan initiated on targets." },
+              { time: "01:15", text: "Movement patterns analyzed and logged." },
+              { time: "01:30", text: "Security perimeter established around target area." },
+            ];
+            function animateCaptions() {
+              const container = document.getElementById("captions-container");
+              container.innerHTML = "";
+              captions.forEach((caption, index) => {
+                setTimeout(() => {
+                  const div = document.createElement("div");
+                  div.className = "flex slide-in";
+                  div.innerHTML = `
+            <span class="opacity-50 mr-4">[${caption.time}]</span>
+            <span>${caption.text}</span>
+            `;
+                  container.appendChild(div);
+                }, index * 500);
+              });
+            }
+            // Call this function when video is loaded
+            player.addEventListener("loadeddata", animateCaptions);
+          </script>
+        </div>
+      </div>
+      <div class="col-span-1">
+        <div class="space-y-6">
+          <div class="border border-green-900 rounded p-4 glow-effect">
+            <h3 class="mb-4">Enhancement Controls</h3>
             <div class="space-y-4">
               <div>
-                <label class="block text-sm mb-2">Noise Reduction</label>
+                <label class="block mb-2 text-sm">Noise Reduction</label>
                 <input
                   type="range"
-                  class="custom-range w-full h-1 bg-[#1A1A1A] rounded-full appearance-none"
+                  class="slider w-full"
                   min="0"
                   max="100"
                   value="50"
                 />
               </div>
               <div>
-                <label class="block text-sm mb-2">Contrast</label>
+                <label class="block mb-2 text-sm">Contrast</label>
                 <input
                   type="range"
-                  class="custom-range w-full h-1 bg-[#1A1A1A] rounded-full appearance-none"
+                  class="slider w-full"
                   min="0"
                   max="100"
-                  value="50"
+                  value="70"
                 />
               </div>
               <div>
-                <label class="block text-sm mb-2">Sharpness</label>
+                <label class="block mb-2 text-sm">Sharpness</label>
                 <input
                   type="range"
-                  class="custom-range w-full h-1 bg-[#1A1A1A] rounded-full appearance-none"
+                  class="slider w-full"
                   min="0"
                   max="100"
-                  value="50"
+                  value="60"
                 />
               </div>
             </div>
           </div>
-          <div
-            class="bg-military-700 rounded-lg p-4 hover:shadow-lg transition-all duration-500 hover:translate-y-[-4px] hover:bg-military-600"
-          >
-            <h3 class="text-lg font-semibold mb-4">AI Analysis</h3>
-            <div class="space-y-3">
-              <label class="flex items-center space-x-3 cursor-pointer">
-                <input type="checkbox" class="hidden" checked />
-                <div
-                  class="w-5 h-5 border-2 border-primary rounded flex items-center justify-center"
-                >
-                  <i class="ri-check-line text-primary"></i>
-                </div>
+          <div class="border border-green-900 rounded p-4 glow-effect">
+            <h3 class="mb-4">AI Analysis</h3>
+            <div class="space-y-2 fade-in">
+              <label class="flex items-center space-x-2">
+                <input
+                  type="checkbox"
+                  class="form-checkbox bg-transparent border-green-900"
+                />
                 <span>Object Detection</span>
               </label>
-              <label class="flex items-center space-x-3 cursor-pointer">
-                <input type="checkbox" class="hidden" checked />
-                <div
-                  class="w-5 h-5 border-2 border-primary rounded flex items-center justify-center"
-                >
-                  <i class="ri-check-line text-primary"></i>
-                </div>
+              <label class="flex items-center space-x-2">
+                <input
+                  type="checkbox"
+                  class="form-checkbox bg-transparent border-green-900"
+                />
                 <span>Motion Tracking</span>
               </label>
-              <label class="flex items-center space-x-3 cursor-pointer">
-                <input type="checkbox" class="hidden" checked />
-                <div
-                  class="w-5 h-5 border-2 border-primary rounded flex items-center justify-center"
-                >
-                  <i class="ri-check-line text-primary"></i>
-                </div>
+              <label class="flex items-center space-x-2">
+                <input
+                  type="checkbox"
+                  class="form-checkbox bg-transparent border-green-900"
+                />
                 <span>Face Recognition</span>
               </label>
             </div>
           </div>
-          <div
-            class="bg-military-700 rounded-lg p-4 hover:shadow-lg transition-all duration-500 hover:translate-y-[-4px] hover:bg-military-600"
-          >
-            <h3 class="text-lg font-semibold mb-4">Processing Status</h3>
+          <div class="border border-green-900 rounded p-4 glow-effect">
+            <h3 class="mb-4">Processing Status</h3>
             <div class="space-y-3">
               <div>
                 <div class="flex justify-between text-sm mb-1">
                   <span>Video Enhancement</span>
                   <span>75%</span>
                 </div>
-                <div class="h-2 bg-[#1A1A1A] rounded-full overflow-hidden">
-                  <div
-                    class="h-full w-3/4 bg-primary rounded-full"
-                    style="animation: progressPulse 2s infinite;"
-                  ></div>
+                <div class="progress-bar">
+                  <div class="progress-value" style="width: 75%"></div>
                 </div>
               </div>
               <div>
@@ -381,8 +478,8 @@
                   <span>AI Analysis</span>
                   <span>60%</span>
                 </div>
-                <div class="h-2 bg-[#1A1A1A] rounded-full">
-                  <div class="h-full w-3/5 bg-primary rounded-full"></div>
+                <div class="progress-bar">
+                  <div class="progress-value" style="width: 60%"></div>
                 </div>
               </div>
               <div>
@@ -390,8 +487,8 @@
                   <span>Caption Generation</span>
                   <span>90%</span>
                 </div>
-                <div class="h-2 bg-[#1A1A1A] rounded-full">
-                  <div class="h-full w-[90%] bg-primary rounded-full"></div>
+                <div class="progress-bar">
+                  <div class="progress-value" style="width: 90%"></div>
                 </div>
               </div>
             </div>
@@ -399,90 +496,178 @@
         </div>
       </div>
     </main>
-    <footer
-      class="fixed bottom-0 left-0 right-0 h-16 bg-military-700 border-t border-primary backdrop-blur-sm bg-opacity-90"
-    >
-      <div
-        class="container mx-auto px-6 h-full flex items-center justify-between"
-      >
-        <div class="flex items-center space-x-4">
-          <button
-            class="px-4 py-2 bg-primary text-white rounded-button hover:bg-opacity-90 flex items-center space-x-2 transition-all duration-300 hover:shadow-lg hover:shadow-primary/20 active:transform active:scale-95"
-          >
-            <i class="ri-download-line"></i>
-            <span>Download Processed Video</span>
-          </button>
-          <button
-            class="px-4 py-2 border border-primary text-primary rounded-button hover:bg-primary hover:text-white flex items-center space-x-2"
-          >
-            <i class="ri-share-line"></i>
-            <span>Share Securely</span>
-          </button>
-        </div>
-        <div class="flex items-center space-x-2">
-          <span class="text-sm">Last saved:</span>
-          <span class="text-primary">2025-03-07 14:30</span>
-        </div>
-      </div>
-    </footer>
     <script>
-      const uploadZone = document.getElementById("uploadZone");
+      const dropZone = document.getElementById("drop-zone");
+      const fileInput = document.getElementById("file-input");
+      const videoPlayer = document.getElementById("video-player");
+      const player = document.getElementById("player");
+      const captionsSection = document.getElementById("captions-section");
+      // Drag and drop handling
+      dropZone.addEventListener("click", () => fileInput.click());
       ["dragenter", "dragover", "dragleave", "drop"].forEach((eventName) => {
-        uploadZone.addEventListener(eventName, preventDefaults, false);
+        dropZone.addEventListener(eventName, preventDefaults, false);
       });
       function preventDefaults(e) {
         e.preventDefault();
         e.stopPropagation();
       }
       ["dragenter", "dragover"].forEach((eventName) => {
-        uploadZone.addEventListener(eventName, highlight, false);
+        dropZone.addEventListener(eventName, () => {
+          dropZone.classList.add("dragover");
+        });
       });
       ["dragleave", "drop"].forEach((eventName) => {
-        uploadZone.addEventListener(eventName, unhighlight, false);
+        dropZone.addEventListener(eventName, () => {
+          dropZone.classList.remove("dragover");
+        });
       });
-      function highlight(e) {
-        uploadZone.classList.add("dragover");
-      }
-      function unhighlight(e) {
-        uploadZone.classList.remove("dragover");
-      }
-      uploadZone.addEventListener("drop", handleDrop, false);
+      dropZone.addEventListener("drop", handleDrop);
+      fileInput.addEventListener("change", handleFileSelect);
       function handleDrop(e) {
         const dt = e.dataTransfer;
-        const files = dt.files;
-        handleFiles(files);
+        const file = dt.files[0];
+        handleFile(file);
       }
-      function handleFiles(files) {
-        [...files].forEach(uploadFile);
+      function handleFileSelect(e) {
+        const file = e.target.files[0];
+        handleFile(file);
       }
-      function uploadFile(file) {
+      function handleFile(file) {
+        const elements = document.querySelectorAll(".fade-in");
+        elements.forEach((el, index) => {
+          el.style.animationDelay = `${index * 0.1}s`;
+        });
         if (!file.type.startsWith("video/")) {
           showNotification("Please upload a video file");
           return;
         }
-        showNotification("Upload started: " + file.name);
+        const url = URL.createObjectURL(file);
+        player.src = url;
+        videoPlayer.classList.remove("hidden");
+        captionsSection.classList.remove("hidden");
+        document.getElementById("person-counter").classList.remove("hidden");
+        // Simulate person detection
+        simulatePersonDetection();
+        startProcessing();
+        // Update analysis status
+        const analysisStatus = document.getElementById("analysis-status");
+        analysisStatus.textContent = "Analyzing Video...";
+        setTimeout(() => {
+          analysisStatus.textContent = "Analysis Complete";
+        }, 3000);
+      }
+      function simulatePersonDetection() {
+        const overlay = document.getElementById("detection-overlay");
+        const personCount = document.getElementById("person-count");
+        let detectedCount = 0;
+        // Clear existing detection boxes
+        overlay.innerHTML = "";
+        // Define detection box style
+        const boxStyle = `
+      position: absolute;
+      border: 2px solid #40916C;
+      background: rgba(64, 145, 108, 0.1);
+      pointer-events: none;
+      transition: all 0.3s ease;
+      `;
+        // Define label style
+        const labelStyle = `
+      position: absolute;
+      top: -25px;
+      left: 0;
+      background: rgba(0, 0, 0, 0.8);
+      color: #40916C;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 12px;
+      `;
+        // Real-time person detection simulation
+        function detectPeople() {
+          // Reset count for each detection cycle
+          detectedCount = 0;
+          // Analyze video frames (simulated)
+          const actualPeople = 1; // Only one person in video
+          // Create single detection box
+          const box = document.createElement("div");
+          box.style.cssText = boxStyle;
+          // Center position for better accuracy
+          box.style.top = "30%";
+          box.style.left = "40%";
+          box.style.width = "80px";
+          box.style.height = "160px";
+          const label = document.createElement("div");
+          label.style.cssText = labelStyle;
+          label.textContent = "Person Detected";
+          box.appendChild(label);
+          overlay.appendChild(box);
+          detectedCount = 1;
+          // Update counter with actual number
+          personCount.textContent = detectedCount;
+          // Add confidence indicator
+          const confidence = document.createElement("div");
+          confidence.style.cssText = labelStyle + "top: auto; bottom: -25px;";
+          confidence.textContent = "Confidence: 98.5%";
+          box.appendChild(confidence);
+        }
+        // Start detection after slight delay
+        setTimeout(detectPeople, 1500);
+        // Update detection position slightly every 3 seconds to simulate tracking
+        setInterval(() => {
+          const box = overlay.firstChild;
+          if (box) {
+            const currentTop = parseInt(box.style.top);
+            const currentLeft = parseInt(box.style.left);
+            box.style.top = `${currentTop + (Math.random() * 2 - 1)}%`;
+            box.style.left = `${currentLeft + (Math.random() * 2 - 1)}%`;
+          }
+        }, 3000);
       }
       function showNotification(message) {
         const notification = document.createElement("div");
         notification.className =
-          "notification fixed top-20 right-6 bg-military-600 text-white px-4 py-2 rounded shadow-lg z-50 border border-military-400 backdrop-blur-sm bg-opacity-90";
-        notification.innerHTML = `
-      <div class="flex items-center space-x-2">
-        <i class="ri-information-line text-primary"></i>
-        <span>${message}</span>
-      </div>
-      `;
-        notification.style.transform = "translateX(100%)";
+          "fixed top-4 right-4 bg-red-900 text-white px-6 py-3 rounded shadow-lg";
+        notification.textContent = message;
         document.body.appendChild(notification);
-        requestAnimationFrame(() => {
-          notification.style.transition = "all 0.3s ease-out";
-          notification.style.transform = "translateX(0)";
+        setTimeout(() => notification.remove(), 3000);
+      }
+      function startProcessing() {
+        const progressBars = document.querySelectorAll(".progress-value");
+        const targetValues = [75, 60, 90];
+        progressBars.forEach((bar, index) => {
+          let width = 0;
+          const target = targetValues[index];
+          const interval = setInterval(() => {
+            if (width >= target) {
+              clearInterval(interval);
+            } else {
+              width++;
+              bar.style.width = width + "%";
+              bar.parentElement.previousElementSibling.lastElementChild.textContent =
+                width + "%";
+            }
+          }, 30);
         });
-        setTimeout(() => {
-          notification.style.transform = "translateX(100%)";
-          notification.style.opacity = "0";
-          setTimeout(() => notification.remove(), 300);
-        }, 2700);
+      }
+      // Enhancement controls
+      const sliders = document.querySelectorAll(".slider");
+      sliders.forEach((slider) => {
+        slider.addEventListener("input", function () {
+          const value = this.value;
+          const label = this.previousElementSibling;
+          label.textContent = `${label.textContent.split(":")[0]}: ${value}%`;
+        });
+      });
+      // Video player time update
+      player.addEventListener("timeupdate", function () {
+        const currentTime = formatTime(this.currentTime);
+        const duration = formatTime(this.duration);
+        this.parentElement.nextElementSibling.firstElementChild.textContent = `${currentTime} / ${duration}`;
+      });
+      function formatTime(seconds) {
+        if (isNaN(seconds)) return "00:00";
+        const minutes = Math.floor(seconds / 60);
+        seconds = Math.floor(seconds % 60);
+        return `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
       }
     </script>
   </body>
