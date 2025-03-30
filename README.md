@@ -35,7 +35,7 @@ Modern warfare, mining, tourism, and extreme sports demand real-time monitoring,
 - **Public Safety & Disaster Management**: Real-time tracking in hazardous environments.  
 
 ## 🖼️ Dashboard UI Preview  
-*(Insert dashboard screenshot or link here)*  
+![Dashboard Preview](C:\Users\hp\Desktop\practising\All projects\HACKUEM websites\CyberFunkies\dashboard.png)
 
 ## 🚀 Future Enhancements  
 - AI-powered predictive analytics for soldier and miner health.  
